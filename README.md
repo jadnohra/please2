@@ -2,7 +2,10 @@
 
 ![CircleCI](https://circleci.com/gh/jadnohra/please2.svg?style=svg&circle-token=052d50b5972f6ac4cb70a677a49ed5ecf09d63e0)
 
-# TODO
+# Existing Commands
+- __Which OS__
+
+# Future Commands
 - what is my ssh public key fingerprint? https://help.github.com/articles/reviewing-your-ssh-keys/
 - generate ssh key https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 - add ssh key to agent https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
