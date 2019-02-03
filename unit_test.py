@@ -3,4 +3,6 @@
     
 def testCommandWhichOS():    
     import please2.command_line
-    print(please2.command_line.process('which OS'))
+    result = please2.command_line.process('which OS')
+    print(result)
+    assert(result.get('OS', '').lower() == 'linux')
