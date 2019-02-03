@@ -1,6 +1,6 @@
 # please2
 
-[![CircleCI](https://circleci.com/gh/jadnohra/please2.svg?style=svg)](https://circleci.com/gh/jadnohra/please2)
+[![CircleCI](https://circleci.com/gh/jadnohra/please2.svg?style=svg&circle-token=052d50b5972f6ac4cb70a677a49ed5ecf09d63e0)]
 
 # TODO
 - what is my ssh public key fingerprint? https://help.github.com/articles/reviewing-your-ssh-keys/
