@@ -1,0 +1,2 @@
+def testFail():
+    assert False
