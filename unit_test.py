@@ -1,5 +1,5 @@
-def testFail():
-    assert False
+#def testFail():
+#    assert False
     
 def testCommandWhichOS():    
     import please2.command_line
