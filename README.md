@@ -3,7 +3,7 @@
 ![CircleCI](https://circleci.com/gh/jadnohra/please2.svg?style=svg&circle-token=052d50b5972f6ac4cb70a677a49ed5ecf09d63e0)
 
 # Existing Commands
-- __Which OS__
+- __'which OS'__
 
 # Future Commands
 - what is my ssh public key fingerprint? https://help.github.com/articles/reviewing-your-ssh-keys/
