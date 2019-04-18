@@ -7,4 +7,4 @@ def register_command(cmd):
 
 
 def all_commands():
-    return _g_cmd_reg
+    return _g_cmd_reg;

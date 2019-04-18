@@ -1,17 +1,19 @@
 import platform
 import please2.reg_cmd as reg_cmd
-from .cmd_base import generic_match, Match
+from .cmd_base import generic_match, generic_key_args, generic_parametrize, Match
 
 
 class CommandWhichOS:
 
-    def match(self, string):
-        return generic_match(self, string)
+    def key(self):
+        return 'which OS'
 
-    def parametrize(self, string):
-        if string.lower().startswith('which OS'.lower()):
-            return {}
-        return None
+    def match(self, str_args, str_args_low):
+        return generic_match(self, str_args, str_args_low)
+
+    def parametrize(self, str_args, str_args_low):
+        return generic_parametrize(generic_key_args(self),
+                                    str_args, str_args_low)
 
     def run_match(self, params):
         result = {
