@@ -1,2 +1,2 @@
 import please2.command.cmd_which_os
-import please2.command.cmd_list_build_directories
+import please2.command.cmd_build_ls
