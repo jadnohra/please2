@@ -9,7 +9,7 @@ from please2.util.pprint import pprint_tree_node
 class CommandBuildLs(Command):
 
     def help(self):
-        return self.key() + ' [@ dir]'
+        return self.key() + ' [@ dir] [only filter]'
 
     def key(self):
         return 'build ls'
