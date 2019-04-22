@@ -39,6 +39,11 @@ class TreeNode:
     def has_label(self, label):
         return label in self._labels
 
+    def merge_attr_set(self, key, val):
+        merge_set = self._attrs.get(key, set())
+        merge_set.add(val)
+        self._attrs[key] = merge_set
+
     def set_attr(self, key, val):
         self._attrs[key] = val
 

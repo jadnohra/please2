@@ -2,9 +2,9 @@ from .tree import TreeNode
 
 def pprint_tree_node(tree):
     def pprint_name(node):
-        name = node.name()
+        name = str(node.name())
         if node.has_attr('pprint-highlight'):
-            return name + ' <----- ' + node.get_attr('pprint-highlight', '?')
+            return name + ' <----- ' + str(node.get_attr('pprint-highlight', '?'))
         elif node.has_label('pprint-highlight'):
             return name + ' <-----'
         else:

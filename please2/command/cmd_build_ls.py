@@ -11,6 +11,9 @@ class CommandBuildLs(Command):
     def help(self):
         return self.key() + ' [@ dir] [only filter]'
 
+    def opt_keys(self):
+        return set(['@', 'only'])
+
     def key(self):
         return 'build ls'
 
@@ -19,7 +22,7 @@ class CommandBuildLs(Command):
             return not any(name.startswith(x) for x in ['.', '_'])
         def file_filter_func(name):
             return name in ['WORKSPACE', 'BUILD', 'CMakeLists.txt', 'Makefile']
-        def recurse_label(path, node):
+        def recurse_label(path, node, only_filter):
             def is_cmake_directory(node):
                 return any(x.name() == 'CMakeLists.txt' for x in node.children())
             def is_make_directory(node):
@@ -28,26 +31,28 @@ class CommandBuildLs(Command):
                 return any(x.name() == 'WORKSPACE' for x in node.children())
             def is_bazel_package(node):
                 return any(x.name() == 'BUILD' for x in node.children())
-            if is_cmake_directory(node):
+            def allow(type, only_filter):
+                return True if only_filter is None else (type in only_filter)
+            if allow('cmake', only_filter) and is_cmake_directory(node):
                 node.set_label('build')
                 node.set_label('cmake-directory')
-                node.set_attr('pprint-highlight', 'cmake')
-            if is_make_directory(node):
+                node.merge_attr_set('pprint-highlight', 'cmake')
+            if allow('make', only_filter) and is_make_directory(node):
                 node.set_label('build')
                 node.set_label('make-directory')
-                node.set_attr('pprint-highlight', 'make')
-            if is_bazel_workspace(node):
+                node.merge_attr_set('pprint-highlight', 'make')
+            if allow('bazel-workspace', only_filter) and is_bazel_workspace(node):
                 node.set_label('build')
                 node.set_label('bazel-workspace')
-                node.set_attr('pprint-highlight', 'bazel-workspace')
-            if is_bazel_package(node):
+                node.merge_attr_set('pprint-highlight', 'bazel-workspace')
+            if allow('bazel-package', only_filter) and is_bazel_package(node):
                 node.set_label('build')
                 node.set_label('bazel-package')
-                node.set_attr('pprint-highlight', 'bazel-package')
+                node.merge_attr_set('pprint-highlight', 'bazel-package')
             for child in node.children():
                 if child.has_label('d'):
                     dir_path = join(path, child.name())
-                    recurse_label(dir_path, child)
+                    recurse_label(dir_path, child, only_filter)
         def recurse_clean(node):
             clean_children = [recurse_clean(x) for x in node.children()]
             clean_children = [x for x in clean_children if x is not None]
@@ -58,12 +63,14 @@ class CommandBuildLs(Command):
                 return clean_node
             else:
                 return None
-
         working_dir = params.get('@', getcwd())
         dir_tree = fs.dir_tree(working_dir, dirs_only=True,
                                 dir_filter_func=dir_filter_func,
                                 file_filter_func=file_filter_func)
-        recurse_label(dir_tree.get_attr('root', None), dir_tree)
+        only_filter = None
+        if 'only' in params:
+            only_filter = set([x.strip() for x in params['only'].split(',')])
+        recurse_label(dir_tree.get_attr('root', None), dir_tree, only_filter)
         clean_dir_tree = recurse_clean(dir_tree)
         #pprint_tree_node(dir_tree)
         result = {

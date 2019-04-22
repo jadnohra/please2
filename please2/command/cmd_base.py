@@ -31,6 +31,9 @@ class Command:
     def help(self):
         return self.key()
 
+    def opt_keys(self):
+        return set(['@'])
+
     def match(self, args):
         params = self.parametrize(args)
         if params is None:
@@ -46,6 +49,6 @@ class Command:
             params = {}
             key_len = len(key_args.args)
             if  key_len < len(args.args):
-                params = arg_util.parametrize_common(args.args[key_len:])
+                params = arg_util.parametrize_common(args.args[key_len:], self.opt_keys())
             return params
         return None
