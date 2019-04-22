@@ -15,6 +15,9 @@ class TreeNode:
     def children(self):
         return self._children
 
+    def set_children(self, children):
+        self._children = set(children)
+
     def labels(self):
         return self._labels
 
@@ -38,6 +41,9 @@ class TreeNode:
 
     def set_attr(self, key, val):
         self._attrs[key] = val
+
+    def has_attr(self, key):
+        return key in self._attrs
 
     def get_attr(self, key, dflt=None):
         return self._attrs.get(key, dflt)
