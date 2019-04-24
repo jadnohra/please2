@@ -34,10 +34,11 @@ class Command:
     def opt_keys(self):
         return set(['@'])
 
-    def match(self, args):
+    def match(self, args, prev_result):
         params = self.parametrize(args)
         if params is None:
             return NoMatch()
+        params['prev_result'] = prev_result
         return self.run_match(params)
 
     def key_split(self):
