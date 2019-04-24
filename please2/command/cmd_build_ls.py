@@ -6,6 +6,8 @@ from .cmd_base import Command, Match
 import please2.util.fs as fs
 from please2.util.pprint import pprint_tree_node
 
+# Note, to list make targets: https://gist.github.com/pvdb/777954
+
 class CommandBuildLs(Command):
 
     def help(self):
