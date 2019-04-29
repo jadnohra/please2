@@ -19,6 +19,9 @@ class CommandBuildLs(Command):
     def key(self):
         return 'build ls'
 
+    def layer_name(self):
+        return 'build_ls'
+
     def run_match(self, params):
         def dir_filter_func(name):
             return not any(name.startswith(x) for x in ['.', '_'])
@@ -35,22 +38,19 @@ class CommandBuildLs(Command):
                 return any(x.name() == 'BUILD' for x in node.children())
             def allow(type, only_filter):
                 return True if only_filter is None else (type in only_filter)
+            labels = []
             if allow('cmake', only_filter) and is_cmake_directory(node):
-                node.set_label('build')
-                node.set_label('cmake-directory')
-                node.merge_attr_set('pprint-highlight', 'cmake')
+                labels.append('cmake-dir')
             if allow('make', only_filter) and is_make_directory(node):
-                node.set_label('build')
-                node.set_label('make-directory')
-                node.merge_attr_set('pprint-highlight', 'make')
-            if allow('bazel-workspace', only_filter) and is_bazel_workspace(node):
-                node.set_label('build')
-                node.set_label('bazel-workspace')
-                node.merge_attr_set('pprint-highlight', 'bazel-workspace')
-            if allow('bazel-package', only_filter) and is_bazel_package(node):
-                node.set_label('build')
-                node.set_label('bazel-package')
-                node.merge_attr_set('pprint-highlight', 'bazel-package')
+                labels.append('make-dir')
+            if (allow('bazel', only_filter) or allow('bazel-ws', only_filter)) and is_bazel_workspace(node):
+                labels.append('bazel-ws')
+            if (allow('bazel', only_filter) or allow('bazel-pkg', only_filter)) and is_bazel_package(node):
+                labels.append('bazel-pkg')
+            if len(labels):
+                layer = node.add_label_layer(self.layer_name())
+                for label in labels:
+                    layer.set_label(label)
             for child in node.children():
                 if child.has_label('d'):
                     dir_path = join(path, child.name())
@@ -58,7 +58,7 @@ class CommandBuildLs(Command):
         def recurse_clean(node):
             clean_children = [recurse_clean(x) for x in node.children()]
             clean_children = [x for x in clean_children if x is not None]
-            keep_self = node.has_label('build')
+            keep_self = node.is_label_layer(self.layer_name())
             if keep_self or clean_children:
                 clean_node = copy(node)
                 clean_node.set_children(clean_children)
@@ -72,11 +72,11 @@ class CommandBuildLs(Command):
         only_filter = None
         if 'only' in params:
             only_filter = set([x.strip() for x in params['only'].split(',')])
-        recurse_label(dir_tree.get_attr('root', None), dir_tree, only_filter)
+        recurse_label(dir_tree.label_layer().get_attr('root', None), dir_tree, only_filter)
         clean_dir_tree = recurse_clean(dir_tree)
         #pprint_tree_node(dir_tree)
         result = {
-            'build_dir_tree': clean_dir_tree
+            self.layer_name(): clean_dir_tree
             }
         return Match(result)
 

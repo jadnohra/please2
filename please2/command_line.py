@@ -16,8 +16,8 @@ def process(args, prev_result=None):
 
 def pprint_match(result):
     if isinstance(result, dict) and len(result) == 1:
-        for v in result.values():
-            pprint_any(v)
+        for k,v in result.items():
+            pprint_any(v, k)
         return
     pp = pprint.PrettyPrinter(indent=2)
     pp.pprint(result)
@@ -38,7 +38,8 @@ def split_into_cmd_chains(argv, chain_sep='---'):
 def main():
     chains = split_into_cmd_chains(sys.argv[1:])
     last_result = None
-    for chain in chains:
+    for i, chain in enumerate(chains):
         args = Args(chain)
         last_result = process(args, last_result)
-        pprint_match(last_result)
+        if i+1 == len(chains):
+            pprint_match(last_result)

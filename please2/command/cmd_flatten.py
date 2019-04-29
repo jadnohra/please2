@@ -1,4 +1,5 @@
 import platform
+from copy import copy
 import please2.reg_cmd as reg_cmd
 from .cmd_base import Command, Match
 from please2.util.tree import TreeNode
@@ -17,20 +18,27 @@ class CommandFlatten(Command):
             return (None, None)
         def join(a, b):
             return a + '/' + b
-        def flatten_tree(node, path, flat):
+        def flatten_tree(node, path, flat_tree_root):
             node_path = join(path, node.name())
             if node.is_leaf():
-                flat.append(node_path)
+                flat_node = copy(node)
+                flat_node.set_name(node_path)
+                if flat_node.has_label_layer():
+                    layer = flat_node.label_layer()
+                    layer.set_name(layer.name() + '-flat')
+                flat_tree_root.add_child(flat_node)
             else:
                 for child in node.children():
-                    flatten_tree(child, node_path, flat)
+                    flatten_tree(child, node_path, flat_tree_root)
         tree_k, tree_v = find_tree(params)
         result = {}
         if tree_k is not None:
-            flat_tree = []
-            flatten_tree(tree_v, '', flat_tree)
+            flat_tree_root = TreeNode()
+            flat_tree_root.set_name('.')
+            flatten_tree(tree_v, '', flat_tree_root)
+            flat_tree_root.sort_children()
             result = {
-                tree_k+'-flat': flat_tree
+                tree_k+'-flat': flat_tree_root
             }
         return Match(result)
 
