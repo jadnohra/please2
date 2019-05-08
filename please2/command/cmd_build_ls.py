@@ -45,7 +45,7 @@ class CommandBuildLs(Command):
                 child_rules = create_build_node('rules', 'rules')
                 for rule in rules:
                     type, rule, name = rule.split()
-                    foo = create_build_node(name, type)
+                    foo = create_build_node(name.split(':')[1], type)
                     child_rules.add_child(foo)
                     return [child_rules]
             return None
