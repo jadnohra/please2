@@ -3,8 +3,10 @@ from os.path import join
 import please2.reg_cmd as reg_cmd
 from .cmd_base import Command, Match
 import please2.util.fs as fs
+from please2.util.tree import TreeNode
 from please2.util.pprint import pprint_tree_node
 from please2.util.tree_algo import recurse_filter_node_copy
+import subprocess
 
 # Note, to list make targets: https://gist.github.com/pvdb/777954
 # Note, useful bazel commands: https://docs.bazel.build/versions/master/query-how-to.html#what-rules-are-defined-in-the-foo-package
@@ -12,7 +14,7 @@ from please2.util.tree_algo import recurse_filter_node_copy
 class CommandBuildLs(Command):
 
     def help(self):
-        return self.key() + ' [@ dir] [only filter]'
+        return self.key() + ' [@ <dir>] [only <filter>] [detailed]'
 
     def opt_keys(self):
         return set(['@', 'only'])
@@ -28,7 +30,26 @@ class CommandBuildLs(Command):
             return not any(name.startswith(x) for x in ['.', '_'])
         def file_filter_func(name):
             return name in ['WORKSPACE', 'BUILD', 'CMakeLists.txt', 'Makefile']
-        def recurse_label(path, node, only_filter):
+        def create_build_node(name, label):
+            node = TreeNode()
+            node.set_name(name)
+            layer = node.add_label_layer(self.layer_name())
+            layer.set_label(label)
+            return node
+        def ls_bazel_package_subtree(path):
+            # bazel query 'kind(rule, :*)' --output label_kind
+            qry_run_result = subprocess.run("bazel query 'kind(rule, :*)' --output label_kind", shell=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=path)
+            rules = qry_run_result.stdout.decode('utf-8').split('\n')
+            rules = [x for x in rules if len(x.strip())]
+            if len(rules):
+                child_rules = create_build_node('rules', 'rules')
+                for rule in rules:
+                    type, rule, name = rule.split()
+                    foo = create_build_node(name, type)
+                    child_rules.add_child(foo)
+                    return [child_rules]
+            return None
+        def recurse_label(path, node, only_filter, detailed):
             def is_cmake_directory(node):
                 return any(x.name() == 'CMakeLists.txt' for x in node.children())
             def is_make_directory(node):
@@ -48,6 +69,10 @@ class CommandBuildLs(Command):
                 labels.append('bazel-ws')
             if (allow('bazel', only_filter) or allow('bazel-pkg', only_filter)) and is_bazel_package(node):
                 labels.append('bazel-pkg')
+                if detailed:
+                    children = ls_bazel_package_subtree(path)
+                    if children is not None:
+                        node.add_children(children)
             if len(labels):
                 layer = node.add_label_layer(self.layer_name())
                 for label in labels:
@@ -55,18 +80,19 @@ class CommandBuildLs(Command):
             for child in node.children():
                 if child.has_label('d'):
                     dir_path = join(path, child.name())
-                    recurse_label(dir_path, child, only_filter)
+                    recurse_label(dir_path, child, only_filter, detailed)
         def keep_node_clean(node):
             return node.is_label_layer(self.layer_name())
         recurse_clean = recurse_filter_node_copy
         working_dir = params.get('@', getcwd())
+        detailed = 'detailed' in args.args
         dir_tree = fs.dir_tree(working_dir, dirs_only=True,
                                 dir_filter_func=dir_filter_func,
                                 file_filter_func=file_filter_func)
         only_filter = None
         if 'only' in params:
             only_filter = set([x.strip() for x in params['only'].split(',')])
-        recurse_label(dir_tree.label_layer().get_attr('root', None), dir_tree, only_filter)
+        recurse_label(dir_tree.label_layer().get_attr('root', None), dir_tree, only_filter, detailed)
         clean_dir_tree = recurse_filter_node_copy(dir_tree, keep_node_clean)
         #pprint_tree_node(dir_tree)
         result = {

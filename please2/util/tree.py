@@ -95,6 +95,10 @@ class TreeNode:
     def add_child(self, child):
         self._children.add(child)
 
+    def add_children(self, children):
+        for child in children:
+            self.add_child(child)
+
     def sort_children(self):
         self._children = sorted(self._children, key= lambda x: x.name())
 
