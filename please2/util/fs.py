@@ -25,6 +25,6 @@ def dir_tree(root_dir, dirs_only=False, dir_filter_func=lambda x: True,
                     if dir_filter_func(node_name):
                         node.add_child(recurse(node_path, node_name))
         return node
-    root_tree = recurse(root_dir, basename(root_dir))
+    root_tree = recurse(root_dir, '.')
     root_tree.label_layer().set_attr('root', root_dir)
     return root_tree

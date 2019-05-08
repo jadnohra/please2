@@ -17,7 +17,7 @@ class CommandFlatten(Command):
                     return k, v
             return (None, None)
         def join(a, b):
-            return a + '/' + b
+            return a + '/' + b if len(a) else b
         def flatten_tree(node, path, flat_tree_root):
             node_path = join(path, node.name())
             if node.is_leaf():
@@ -34,7 +34,7 @@ class CommandFlatten(Command):
         result = {}
         if tree_k is not None:
             flat_tree_root = TreeNode()
-            flat_tree_root.set_name('.')
+            flat_tree_root.set_name('')
             flatten_tree(tree_v, '', flat_tree_root)
             flat_tree_root.sort_children()
             result = {

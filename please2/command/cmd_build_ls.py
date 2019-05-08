@@ -7,6 +7,7 @@ from please2.util.pprint import pprint_tree_node
 from please2.util.tree_algo import recurse_filter_node_copy
 
 # Note, to list make targets: https://gist.github.com/pvdb/777954
+# Note, useful bazel commands: https://docs.bazel.build/versions/master/query-how-to.html#what-rules-are-defined-in-the-foo-package
 
 class CommandBuildLs(Command):
 
