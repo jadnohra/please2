@@ -10,7 +10,7 @@ class CommandFlatten(Command):
     def key(self):
         return 'flatten'
 
-    def run_match(self, params):
+    def run_match(self, args, params):
         def find_tree(params):
             for k,v in params.get('prev_result', {}).items():
                 if isinstance(v, TreeNode):

@@ -1,10 +1,10 @@
 from os import getcwd
 from os.path import join
-from copy import copy
 import please2.reg_cmd as reg_cmd
 from .cmd_base import Command, Match
 import please2.util.fs as fs
 from please2.util.pprint import pprint_tree_node
+from please2.util.tree_algo import recurse_filter_node_copy
 
 # Note, to list make targets: https://gist.github.com/pvdb/777954
 
@@ -22,7 +22,7 @@ class CommandBuildLs(Command):
     def layer_name(self):
         return 'build_ls'
 
-    def run_match(self, params):
+    def run_match(self, args, params):
         def dir_filter_func(name):
             return not any(name.startswith(x) for x in ['.', '_'])
         def file_filter_func(name):
@@ -55,16 +55,9 @@ class CommandBuildLs(Command):
                 if child.has_label('d'):
                     dir_path = join(path, child.name())
                     recurse_label(dir_path, child, only_filter)
-        def recurse_clean(node):
-            clean_children = [recurse_clean(x) for x in node.children()]
-            clean_children = [x for x in clean_children if x is not None]
-            keep_self = node.is_label_layer(self.layer_name())
-            if keep_self or clean_children:
-                clean_node = copy(node)
-                clean_node.set_children(clean_children)
-                return clean_node
-            else:
-                return None
+        def keep_node_clean(node):
+            return node.is_label_layer(self.layer_name())
+        recurse_clean = recurse_filter_node_copy
         working_dir = params.get('@', getcwd())
         dir_tree = fs.dir_tree(working_dir, dirs_only=True,
                                 dir_filter_func=dir_filter_func,
@@ -73,7 +66,7 @@ class CommandBuildLs(Command):
         if 'only' in params:
             only_filter = set([x.strip() for x in params['only'].split(',')])
         recurse_label(dir_tree.label_layer().get_attr('root', None), dir_tree, only_filter)
-        clean_dir_tree = recurse_clean(dir_tree)
+        clean_dir_tree = recurse_filter_node_copy(dir_tree, keep_node_clean)
         #pprint_tree_node(dir_tree)
         result = {
             self.layer_name(): clean_dir_tree

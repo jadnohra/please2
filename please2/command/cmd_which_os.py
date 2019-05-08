@@ -8,7 +8,7 @@ class CommandWhichOS(Command):
     def key(self):
         return 'which OS'
 
-    def run_match(self, params):
+    def run_match(self, args, params):
         result = {
             'OS': platform.system(),
             'release': platform.release()

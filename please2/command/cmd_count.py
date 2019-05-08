@@ -10,7 +10,7 @@ class CommandCount(Command):
     def key(self):
         return 'count'
 
-    def run_match(self, params):
+    def run_match(self, args, params):
         # TODO
         return None
 

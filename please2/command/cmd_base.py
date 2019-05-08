@@ -39,7 +39,7 @@ class Command:
         if params is None:
             return NoMatch()
         params['prev_result'] = prev_result
-        return self.run_match(params)
+        return self.run_match(args, params)
 
     def key_split(self):
         return Args(self.key().split())

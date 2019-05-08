@@ -8,7 +8,7 @@ class CommandHelp(Command):
     def key(self):
         return 'help'
 
-    def run_match(self, params):
+    def run_match(self, args, params):
         result = sorted([x.help() for x in all_commands()])
         return Match(result)
 
