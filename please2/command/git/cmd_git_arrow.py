@@ -9,7 +9,7 @@ from .cmd_git_util import find_branch_diff_files
 class CommandGitArrow(Command):
 
     def help(self):
-        return self.key() + ' (index|remote)/source-branch (index|remote)/target-branch'
+        return self.key() + ' (index|remote)/<source-branch> (index|remote)/<target-branch>'
 
     def opt_keys(self):
         return set(['@', 'trace'])

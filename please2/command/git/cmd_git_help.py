@@ -2,9 +2,11 @@ import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
 
 help_ascii = '''
+              Staging is .git/index and .git/objects.
               Single binary file .git/index,
               lists all files in the curr branch,
               their sha1 checksums, time stamps
+              
                            +
                            |
       +                    |            +            +
