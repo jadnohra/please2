@@ -1,7 +1,7 @@
 import subprocess
 import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
-from .cmd_git_util import make_error_result, run_git_get_lines
+from .cmd_git_util import which_branch, make_error_result
 
 
 class CommandGitWhichBranch(Command):
@@ -17,12 +17,7 @@ class CommandGitWhichBranch(Command):
         return 'git which branch'
 
     def run_match(self, args, params):
-        result_lines = run_git_get_lines(args, params, ['branch'])
-        found_branch = None
-        for line in result_lines:
-            if line.startswith('* '):
-                found_branch = line.split()[1]
-                break
+        found_branch = which_branch(args, params)
         if found_branch:
             result = {
                 'branch': found_branch,

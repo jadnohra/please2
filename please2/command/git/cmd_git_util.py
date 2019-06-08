@@ -26,3 +26,12 @@ def make_error_result(args, params):
         'error': 'Not a git repo directory' if not is_repo else 'Panic ;(',
     }
     return result
+
+def which_branch(args, params):
+    result_lines = run_git_get_lines(args, params, ['branch'])
+    found_branch = None
+    for line in result_lines:
+        if line.startswith('* '):
+            found_branch = line.split()[1]
+            break
+    return found_branch
