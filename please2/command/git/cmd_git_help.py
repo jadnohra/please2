@@ -6,8 +6,7 @@ help_ascii = '''
               Single binary file .git/index,
               lists all files in the curr branch,
               their sha1 checksums, time stamps
-              
-                           +
+                       ~~~~~~~~~
                            |
       +                    |            +            +
       | +------add-------> | +-commit-> | +--push--> |
@@ -25,7 +24,7 @@ help_ascii = '''
       |                    |            |            |
       | <------------------+-pull/rebase+----------+ +
       |                                 |
-      +                                 +
+  ~~~~~~~~~                         ~~~~~~~~~
 Directory of files           Directory .git including
 you see and edit             an objects directory containing
                              all versions of all files
