@@ -7,10 +7,10 @@ from .cmd_git_util import make_error_result, run_git_get_lines
 class CommandGitWhichBranches(Command):
 
     def help(self):
-        return self.key() + ' [@ <dir>] [remote]'
+        return self.key() + ' [@ <dir>] [remote] [trace]'
 
     def opt_keys(self):
-        return set(['@', 'remote'])
+        return set(['@', 'remote', 'trace'])
 
 
     def key(self):
@@ -28,10 +28,10 @@ class CommandGitWhichBranches(Command):
         remote = 'remote' in args.args
         if remote:
             prefix = 'remotes/'
-            result_lines = run_git_get_lines(params, ['branch', '-a'])
+            result_lines = run_git_get_lines(args, params, ['branch', '-a'])
             result_lines = [x[len(prefix):] for x in result_lines if x.startswith(prefix)]
         else:
-            result_lines = run_git_get_lines(params, ['branch'])
+            result_lines = run_git_get_lines(args, params, ['branch'])
         found_branches = []
         for line in result_lines:
             if line.startswith('* '):
@@ -46,7 +46,7 @@ class CommandGitWhichBranches(Command):
                 self.layer_name(): root_node,
             }
         else:
-            result = make_error_result(params)
+            result = make_error_result(args, params)
         return Match(result)
 
 
