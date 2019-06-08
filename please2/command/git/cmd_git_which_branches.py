@@ -1,4 +1,3 @@
-import subprocess
 import please2.reg_cmd as reg_cmd
 from please2.util.tree import TreeNode
 from ..cmd_base import Command, Match

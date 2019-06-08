@@ -35,3 +35,15 @@ def which_branch(args, params):
             found_branch = line.split()[1]
             break
     return found_branch
+
+def checkout_branch(args, params, branch):
+    result_stdout = run_git_get_stdout(args, params, ['checkout', branch])
+    return result_stdout.strip().lower() == 'your branch is up to date'
+    
+def find_branch_diff_files(args, params, target_branch):
+    lines = run_git_get_lines(args, params, ['diff', '-R', '--name-only', target_branch])
+    return lines
+
+def merge_branch(args, params, target_branch):
+    result_stdout = run_git_get_stdout(args, params, ['merge', target_branch])
+    return result_stdout.strip().lower() == 'your branch is up to date'

@@ -1,4 +1,3 @@
-import subprocess
 import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
 from .cmd_git_util import which_branch, make_error_result
