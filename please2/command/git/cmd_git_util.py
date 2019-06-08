@@ -9,7 +9,7 @@ def run_git_get_stdout(args, params, git_args):
         print(f' > {working_dir}$ {" ".join(run_args)}')
     result = subprocess.run(run_args, stdout=subprocess.PIPE, cwd=working_dir)
     result_stdout = result.stdout.decode('utf-8')
-    return result_stdout
+    return result_stdout.strip()
 
 def is_in_git_repo(args, params):
     result_stdout = run_git_get_stdout(args, params, ['rev-parse', '--is-inside-work-tree'])

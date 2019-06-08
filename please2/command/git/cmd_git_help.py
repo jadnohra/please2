@@ -1,6 +1,5 @@
 import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
-from .cmd_git_util import which_branch, make_error_result
 
 help_ascii = '''
               Single binary file .git/index,
@@ -45,5 +44,7 @@ class CommandGitHelp(Command):
         return Match({'info': help_ascii})
         return Match(result)
 
+# TODO: git log --graph --full-history --all --color         --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"
+# https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 
 reg_cmd.register_command(CommandGitHelp())

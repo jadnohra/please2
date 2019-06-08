@@ -3,7 +3,7 @@ from please2.util.tree import TreeNode
 from ..cmd_base import Command, Match
 from .cmd_git_util import make_error_result, run_git_get_lines
 
-class CommandGitWhichBranches(Command):
+class CommandGitLsBranches(Command):
 
     def help(self):
         return self.key() + ' [@ <dir>] [remote] [trace]'
@@ -13,7 +13,7 @@ class CommandGitWhichBranches(Command):
 
 
     def key(self):
-        return 'git which branches'
+        return 'git ls branches'
 
     def layer_name(self):
         return 'git_branches'
@@ -49,4 +49,4 @@ class CommandGitWhichBranches(Command):
         return Match(result)
 
 
-reg_cmd.register_command(CommandGitWhichBranches())
+reg_cmd.register_command(CommandGitLsBranches())
