@@ -4,7 +4,7 @@ import please2.reg_cmd as reg_cmd
 from .cmd_base import Command, Match
 import please2.util.fs as fs
 from please2.util.tree import TreeNode
-from please2.util.pprint import pprint_tree_node
+#from please2.util.pprint import pprint_tree_node
 from please2.util.tree_algo import recurse_filter_node_copy
 import subprocess
 
