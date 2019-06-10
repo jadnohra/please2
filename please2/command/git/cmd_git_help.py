@@ -47,5 +47,6 @@ class CommandGitHelp(Command):
 
 # TODO: git log --graph --full-history --all --color         --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"
 # https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
+# https://stackoverflow.com/questions/40978921/how-to-add-chmod-permissions-to-file-in-git/40979016
 
 reg_cmd.register_command(CommandGitHelp())
