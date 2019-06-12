@@ -15,3 +15,4 @@
 - dropbox interaction using: https://github.com/dropbox/dbxcli
 - Handle paths in .bashrc
 - which nvidia driver version, which vulkan driver version
+- count lines of code in directory hierarchical
