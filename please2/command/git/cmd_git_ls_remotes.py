@@ -9,7 +9,7 @@ class CommandGitLsRemotes(Command):
         return self.key() + ' [@ <dir>]'
 
     def opt_keys(self):
-        return set(['@')
+        return set(['@'])
 
 
     def key(self):
