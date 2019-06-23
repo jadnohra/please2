@@ -12,7 +12,7 @@ class CommandGitArrow(Command):
         return self.key() + ' (index|remote)/<source-branch> (index|remote)/<target-branch>'
 
     def opt_keys(self):
-        return set(['@', 'trace'])
+        return set(['@'])
 
     def key(self):
         return 'git ='

@@ -6,10 +6,10 @@ from .cmd_git_util import run_git_get_lines, run_git_get_stdout
 class CommandGitLsRemotes(Command):
 
     def help(self):
-        return self.key() + ' [@ <dir>] [trace]'
+        return self.key() + ' [@ <dir>]'
 
     def opt_keys(self):
-        return set(['@', 'trace'])
+        return set(['@')
 
 
     def key(self):
