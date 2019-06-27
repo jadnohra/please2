@@ -10,4 +10,5 @@ import please2.command.git.cmd_git_help
 import please2.command.git.cmd_git_ls_remotes
 import please2.command.git.cmd_git_which_branch
 import please2.command.git.cmd_git_ls_branches
+import please2.command.git.cmd_git_ls_commits
 import please2.command.git.cmd_git_arrow
