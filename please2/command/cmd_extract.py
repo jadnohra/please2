@@ -21,7 +21,7 @@ class CommandExtract(Command):
             run_get_lines(args, params, ['unrar', 'e', file])
             return Match('')
         elif file.endswith('.zip'):
-            run_get_lines(args, params, ['unzip', 'e', file])
+            run_get_lines(args, params, ['unzip', file])
             return Match('')
         else:
             return Match(result = {
