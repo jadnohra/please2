@@ -20,6 +20,9 @@ class CommandExtract(Command):
         if file.endswith('.rar'):
             run_get_lines(args, params, ['unrar', 'e', file])
             return Match('')
+        elif file.endswith('.zip'):
+            run_get_lines(args, params, ['unzip', 'e', file])
+            return Match('')
         else:
             return Match(result = {
                 'error': "Apologies, I don't know how to extract this file type",
