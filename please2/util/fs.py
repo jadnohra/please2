@@ -1,5 +1,5 @@
 from os import listdir
-from os.path import isfile, join, basename
+from os.path import isfile, isdir, join, basename
 from functools import reduce
 from .tree import TreeNode
 
@@ -21,7 +21,7 @@ def dir_tree(root_dir, dirs_only=False, dir_filter_func=lambda x: True,
                         layer = fnode.add_label_layer(layer_key)
                         layer.set_label('f')
                         node.add_child(fnode)
-                else:
+                elif isdir(node_path):
                     if dir_filter_func(node_name):
                         node.add_child(recurse(node_path, node_name))
         return node
