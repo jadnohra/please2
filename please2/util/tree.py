@@ -41,9 +41,9 @@ class TreeNode:
         def get_attr(self, key, dflt=None):
             return self._attrs.get(key, dflt)
 
-    def __init__(self):
+    def __init__(self, name=None):
         self._children = []
-        self._name = None
+        self._name = name
         self._label_layers = []
 
     def is_internal(self):
