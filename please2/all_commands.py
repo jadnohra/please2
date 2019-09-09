@@ -18,5 +18,7 @@ import please2.command.git.cmd_git_new_branch
 import please2.command.git.cmd_git_switch_to_branch
 import please2.command.git.cmd_git_arrow
 import please2.command.docker.cmd_docker_ls_images
+import please2.command.docker.cmd_docker_ls_containers
 import please2.command.docker.cmd_docker_kill_all_containers
+import please2.command.docker.cmd_docker_delete_all_containers
 import please2.command.docker.cmd_docker_delete_all_images

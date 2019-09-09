@@ -4,7 +4,7 @@ from ..cmd_base import Command, Match
 from .cmd_docker_util import run_docker_get_lines, make_error_result
 
 
-class CommandDockerLsImages(Command):
+class CommandDockerLsContainers(Command):
 
     def help(self):
         return self.key()
@@ -14,10 +14,10 @@ class CommandDockerLsImages(Command):
 
 
     def key(self):
-        return 'docker ls images'
+        return 'docker ls containers'
 
     def layer_name(self):
-        return 'docker_images'
+        return 'docker_containers'
 
 
     def run_match(self, args, params):
@@ -26,7 +26,7 @@ class CommandDockerLsImages(Command):
             # use docker inspect instead
             # node.add_child(TreeNode(' --- '.join(container)))
             return node
-        result_lines = run_docker_get_lines(args, params, ['image', 'ls', '-a'])
+        result_lines = run_docker_get_lines(args, params, ['ps', '-a'])
         found_containers = []
         for line in result_lines[1:]:
             found_containers.append(line.split())
@@ -42,4 +42,4 @@ class CommandDockerLsImages(Command):
         return Match(result)
 
 
-reg_cmd.register_command(CommandDockerLsImages())
+reg_cmd.register_command(CommandDockerLsContainers())
