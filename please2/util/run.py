@@ -1,6 +1,13 @@
 from os import getcwd
 import subprocess
 
+def run(args, params, run_args):
+    trace = '[trace]' in args.args
+    working_dir = params.get('@', getcwd())
+    if trace:
+        print(f' > {working_dir}$ {" ".join(run_args)}')
+    subprocess.run(run_args, cwd=working_dir)
+
 def run_get_stdout(args, params, run_args):
     trace = '[trace]' in args.args
     working_dir = params.get('@', getcwd())
