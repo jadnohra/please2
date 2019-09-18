@@ -22,3 +22,4 @@ import please2.command.docker.cmd_docker_ls_containers
 import please2.command.docker.cmd_docker_kill_all_containers
 import please2.command.docker.cmd_docker_delete_all_containers
 import please2.command.docker.cmd_docker_delete_all_images
+import please2.command.alternatives.cmd_alternatives_ls
