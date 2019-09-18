@@ -2,7 +2,7 @@ from os import getcwd
 import subprocess
 
 def run_get_stdout(args, params, run_args):
-    trace = 'trace' in args.args
+    trace = '[trace]' in args.args
     working_dir = params.get('@', getcwd())
     if trace:
         print(f' > {working_dir}$ {" ".join(run_args)}')

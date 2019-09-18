@@ -1,3 +1,4 @@
+import json
 from please2.util.run import run_get_stdout, run_get_lines
 
 def run_docker_get_stdout(args, params, git_args):
@@ -21,3 +22,8 @@ def get_all_containers(args, params):
 def get_all_images(args, params):
     result_lines = run_docker_get_lines(args, params, ['images', '-q'])
     return [x.strip() for x in result_lines if len(x.strip())]
+
+def inspect_id(id, args, params):
+    result_lines = run_docker_get_lines(args, params, ['inspect', id])
+    container_info = json.loads('\n'.join(result_lines))
+    return container_info[0]
