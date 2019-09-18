@@ -8,7 +8,7 @@ def parametrize_common(args, opt_keys):
     return params
 
 def get_positional_at(args, index):
-    return args[index]
-    
+    return args[index] if index < len(args) else None
+
 def get_positional_after(args, key):
     return get_positional_at(args, args.index(key)+1)
