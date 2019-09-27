@@ -24,3 +24,4 @@ import please2.command.docker.cmd_docker_delete_all_containers
 import please2.command.docker.cmd_docker_delete_all_images
 import please2.command.alternatives.cmd_alternatives_ls
 import please2.command.alternatives.cmd_alternatives_choose
+import please2.command.network.cmd_network_devices_ls
