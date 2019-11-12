@@ -3,6 +3,8 @@ from please2.util.tree import TreeNode
 from ..cmd_base import Command, Match
 from .cmd_git_util import run_git_get_lines, run_git_get_stdout
 
+# Source for additional features: https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection
+
 class CommandGitLsCommits(Command):
 
     def help(self):
