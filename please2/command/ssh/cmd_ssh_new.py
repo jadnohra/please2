@@ -3,6 +3,7 @@ from please2.util.tree import TreeNode
 from ..cmd_base import Command, Match
 from .ssh_util import ssh_keygen_new
 
+# TODO handle ~/.ssh/config, warn about duplicates, list
 class CommandSshNew(Command):
 
     def help(self):
