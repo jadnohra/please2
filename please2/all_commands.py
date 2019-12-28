@@ -1,6 +1,5 @@
 import please2.command.cmd_help
 import please2.command.cmd_which_os
-import please2.command.cmd_build_ls
 import please2.command.cmd_flatten
 import please2.command.cmd_filter
 import please2.command.cmd_filter_out
@@ -10,6 +9,8 @@ import please2.command.cmd_print
 import please2.command.cmd_set_audio_volume
 import please2.command.cmd_audio_devices_ls
 import please2.command.cmd_extract
+import please2.command.build.cmd_build_ls
+import please2.command.build.bazel.cmd_bazel_dep_graph
 import please2.command.git.cmd_git_help
 import please2.command.git.cmd_git_ls_remotes
 import please2.command.git.cmd_git_which_branch

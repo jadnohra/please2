@@ -8,12 +8,12 @@ def run(args, params, run_args):
         print(f' > {working_dir}$ {" ".join(run_args)}')
     subprocess.run(run_args, cwd=working_dir)
 
-def run_get_stdout(args, params, run_args):
+def run_get_stdout(args, params, run_args, shell=False, run_kwargs={}):
     trace = '[trace]' in args.args
     working_dir = params.get('@', getcwd())
     if trace:
         print(f' > {working_dir}$ {" ".join(run_args)}')
-    result = subprocess.run(run_args, stdout=subprocess.PIPE, cwd=working_dir)
+    result = subprocess.run(run_args, stdout=subprocess.PIPE, cwd=working_dir, **run_kwargs)
     result_stdout = result.stdout.decode('utf-8')
     return result_stdout.strip()
 
