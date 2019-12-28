@@ -9,8 +9,7 @@ def dir_tree(root_dir, dirs_only=False, dir_filter_func=lambda x: True,
     def recurse(dir, dirname):
         node = TreeNode()
         node.set_name(dirname)
-        layer = node.add_label_layer(layer_key)
-        layer.set_label('d')
+        layer = node.label_layer(layer_key).set_value('d')
         fs_nodes = listdir(dir)
         for node_name in fs_nodes:
                 node_path = join(dir, node_name)
@@ -18,7 +17,7 @@ def dir_tree(root_dir, dirs_only=False, dir_filter_func=lambda x: True,
                     if file_filter_func(node_name):
                         fnode = TreeNode()
                         fnode.set_name(node_name)
-                        layer = fnode.add_label_layer(layer_key)
+                        layer = fnode.label_layer(layer_key)
                         layer.set_label('f')
                         node.add_child(fnode)
                 elif isdir(node_path):
@@ -26,5 +25,5 @@ def dir_tree(root_dir, dirs_only=False, dir_filter_func=lambda x: True,
                         node.add_child(recurse(node_path, node_name))
         return node
     root_tree = recurse(root_dir, '.')
-    root_tree.label_layer().set_attr('root', root_dir)
+    root_tree.label_layer('root').set_value(root_dir)
     return root_tree

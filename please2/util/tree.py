@@ -5,6 +5,7 @@ class TreeNode:
             self._labels = set()
             self._attrs = {}
             self._name = name
+            self._value = None
 
         def __str__(self):
             return self.name()
@@ -14,6 +15,12 @@ class TreeNode:
 
         def name(self):
             return self._name
+
+        def set_value(self, value):
+            self._value = value
+
+        def value(self):
+            return self._value
 
         def labels(self):
             return self._labels
@@ -44,7 +51,7 @@ class TreeNode:
     def __init__(self, name=None):
         self._children = []
         self._name = name
-        self._label_layers = []
+        self._label_layers = {}
 
     def is_internal(self):
         return not is_leaf()
@@ -58,39 +65,21 @@ class TreeNode:
     def set_children(self, children):
         self._children = list(children)
 
-    def add_label_layer(self, name):
-        self._label_layers.append(self.LabelLayer(name))
-        return self.label_layer()
+    def label_layer(self, name):
+        if name not in self._label_layers:
+            self._label_layers[name] = self.LabelLayer()
+        return self._label_layers[name]
 
     def label_layers(self):
         return self._label_layers
 
-    def label_layer_at(self, i):
-        return self._label_layers[i]
+    def has_label_layer(self, name):
+        return name in self._label_layers
 
-    def has_label_layer(self):
-        return len(self._label_layers) > 0
-
-    def label_layer(self):
-        return self._label_layers[-1] if len(self._label_layers) else None
-
-    def is_label_layer(self, name):
-        layer = self.label_layer()
-        if layer is not None:
-            return layer.name() == name
-        return False
-
-    def has_label(self, label):
-        layer = self.label_layer()
-        if layer is not None:
-            return layer.has_label(label)
-        return False
-
-    def labels(self):
-        layer = self.label_layer()
-        if layer is not None:
-            return layer.labels()
-        return set()
+    def label_value(self, name):
+        if name in self._label_layers:
+            return self._label_layers[name].value()
+        return None
 
     def add_child(self, child):
         self._children.append(child)

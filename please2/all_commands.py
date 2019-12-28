@@ -4,6 +4,7 @@ import please2.command.cmd_build_ls
 import please2.command.cmd_flatten
 import please2.command.cmd_filter
 import please2.command.cmd_filter_out
+import please2.command.cmd_filter_select
 import please2.command.cmd_printers_ls
 import please2.command.cmd_print
 import please2.command.cmd_set_audio_volume

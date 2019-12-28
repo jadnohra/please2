@@ -38,7 +38,7 @@ class CommandAudioDevicesLs(Command):
                 node = create_device_node(device)
                 root_node.add_child(node)
                 if i == default_device_index:
-                    node.add_label_layer(self.layer_name()).set_label('default')
+                    node.label_layer(self.layer_name()).set_label('default')
                 node.add_child(create_device_node(found_device_names[i]))
             result = {
                 self.layer_name(): root_node,

@@ -33,7 +33,7 @@ class CommandBuildLs(Command):
         def create_build_node(name, label):
             node = TreeNode()
             node.set_name(name)
-            layer = node.add_label_layer(self.layer_name())
+            layer = node.label_layer(self.layer_name())
             layer.set_label(label)
             return node
         def ls_bazel_package_subtree(path):
@@ -79,15 +79,15 @@ class CommandBuildLs(Command):
                     if children is not None:
                         node.add_children(children)
             if len(labels):
-                layer = node.add_label_layer(self.layer_name())
+                layer = node.label_layer(self.layer_name())
                 for label in labels:
                     layer.set_label(label)
             for child in node.children():
-                if child.has_label('d'):
+                if child.has_label_layer('dir_tree') and child.label_layer('dir_tree').value() == 'd':
                     dir_path = join(path, child.name())
                     recurse_label(dir_path, child, only_filter, detailed, is_bazel_ws)
         def keep_node_clean(node):
-            return node.is_label_layer(self.layer_name())
+            return node.has_label_layer(self.layer_name())
         recurse_clean = recurse_filter_node_copy
         working_dir = params.get('@', getcwd())
         detailed = 'detailed' in args.args
@@ -97,7 +97,7 @@ class CommandBuildLs(Command):
         only_filter = None
         if 'only' in params:
             only_filter = set([x.strip() for x in params['only'].split(',')])
-        recurse_label(dir_tree.label_layer().get_attr('root', None), dir_tree, only_filter, detailed)
+        recurse_label(dir_tree.label_layer('root').value(), dir_tree, only_filter, detailed)
         clean_dir_tree = recurse_filter_node_copy(dir_tree, keep_node_clean)
         #pprint_tree_node(dir_tree)
         result = {

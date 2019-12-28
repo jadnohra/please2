@@ -17,7 +17,6 @@ class CommandFilter(Command):
             return (None, None)
         def filter_keep_node(node, key):
             return key in node.name()
-        print('innnnn')
         filter_key = args.args[len(self.key().split())]
         tree_k, tree_v = find_tree(params)
         result = {}

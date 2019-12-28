@@ -23,9 +23,9 @@ class CommandFlatten(Command):
             if node.is_leaf():
                 flat_node = copy(node)
                 flat_node.set_name(node_path)
-                if flat_node.has_label_layer():
-                    layer = flat_node.label_layer()
-                    layer.set_name(layer.name() + '-flat')
+                #if flat_node.has_label_layer():
+                #    layer = flat_node.label_layer()
+                #    layer.set_name(layer.name() + '-flat')
                 flat_tree_root.add_child(flat_node)
             else:
                 for child in node.children():
