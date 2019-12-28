@@ -49,7 +49,7 @@ class CommandBuildLs(Command):
                     child_rules.add_child(foo)
                     return [child_rules]
             return None
-        def recurse_label(path, node, only_filter, detailed):
+        def recurse_label(path, node, only_filter, detailed, is_bazel_ws=False):
             def is_cmake_directory(node):
                 return any(x.name() == 'CMakeLists.txt' for x in node.children())
             def is_make_directory(node):
@@ -60,6 +60,10 @@ class CommandBuildLs(Command):
                 return any(x.name() == 'BUILD' for x in node.children())
             def allow(type, only_filter):
                 return True if only_filter is None else (type in only_filter)
+            if is_bazel_ws and node.name()=='external':
+                # Ignore 'external' bazel directories
+                # https://docs.bazel.build/versions/master/output_directories.html
+                return
             labels = []
             if allow('cmake', only_filter) and is_cmake_directory(node):
                 labels.append('cmake-dir')
@@ -67,6 +71,7 @@ class CommandBuildLs(Command):
                 labels.append('make-dir')
             if (allow('bazel', only_filter) or allow('bazel-ws', only_filter)) and is_bazel_workspace(node):
                 labels.append('bazel-ws')
+                is_bazel_ws = True
             if (allow('bazel', only_filter) or allow('bazel-pkg', only_filter)) and is_bazel_package(node):
                 labels.append('bazel-pkg')
                 if detailed:
@@ -80,7 +85,7 @@ class CommandBuildLs(Command):
             for child in node.children():
                 if child.has_label('d'):
                     dir_path = join(path, child.name())
-                    recurse_label(dir_path, child, only_filter, detailed)
+                    recurse_label(dir_path, child, only_filter, detailed, is_bazel_ws)
         def keep_node_clean(node):
             return node.is_label_layer(self.layer_name())
         recurse_clean = recurse_filter_node_copy
