@@ -1,5 +1,7 @@
 def input_indices(prompt):
     sel_str = input(prompt).strip()
+    if len(sel_str) == 0:
+        return []
     parts = sel_str.split(',')
     indices = []
     for part in parts:

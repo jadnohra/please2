@@ -83,6 +83,7 @@ class TreeNode:
 
     def add_child(self, child):
         self._children.append(child)
+        return child
 
     def add_children(self, children):
         for child in children:

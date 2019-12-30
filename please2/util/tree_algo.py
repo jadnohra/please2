@@ -21,3 +21,17 @@ def recurse_label_node_index(node, layer_name='index'):
         for child in node.children():
             recurse_impl(child, index_container)
     recurse_impl(node)
+
+def flatten_tree(node, flat_tree_root, node_path='',
+                join_func=(lambda a,b: a + '/' + b if len(a) else b)):
+    node_path = join_func(node_path, node.name())
+    if node.is_leaf():
+        flat_node = copy(node)
+        flat_node.set_name(node_path)
+        #if flat_node.has_label_layer():
+        #    layer = flat_node.label_layer()
+        #    layer.set_name(layer.name() + '-flat')
+        flat_tree_root.add_child(flat_node)
+    else:
+        for child in node.children():
+            flatten_tree(child, flat_tree_root, node_path)

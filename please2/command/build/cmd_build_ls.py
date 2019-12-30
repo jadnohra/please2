@@ -4,6 +4,7 @@ import subprocess
 import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
 import please2.util.fs as fs
+from please2.util.run import run_get_stdout
 from please2.util.tree import TreeNode
 from please2.util.tree_algo import recurse_filter_node_copy
 
@@ -36,9 +37,9 @@ class CommandBuildLs(Command):
             layer.set_label(label)
             return node
         def ls_bazel_package_subtree(path):
-            # bazel query 'kind(rule, :*)' --output label_kind
-            qry_run_result = subprocess.run("bazel query 'kind(rule, :*)' --output label_kind", shell=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=path)
-            rules = qry_run_result.stdout.decode('utf-8').split('\n')
+            run_cmd = "bazel query 'kind(rule, :*)' --output label_kind"
+            run_kwargs = {'shell': True, 'stderr': subprocess.DEVNULL, 'cwd': path}
+            rules = run_get_stdout(args, params, [run_cmd], run_kwargs).split('\n')
             rules = [x for x in rules if len(x.strip())]
             if len(rules):
                 children = []

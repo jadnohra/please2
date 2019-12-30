@@ -3,6 +3,7 @@ import please2.reg_cmd as reg_cmd
 from .cmd_base import Command, Match
 from please2.util.tree import TreeNode
 from please2.util.tree_algo import recurse_filter_node_copy
+from please2.util.chain import find_tree
 
 class CommandFilterOut(Command):
 
@@ -10,11 +11,6 @@ class CommandFilterOut(Command):
         return 'filter-out'
 
     def run_match(self, args, params):
-        def find_tree(params):
-            for k,v in params.get('prev_result', {}).items():
-                if isinstance(v, TreeNode):
-                    return k, v
-            return (None, None)
         def filter_keep_node(node, key):
             return key not in node.name()
         filter_key = args.args[len(self.key().split())]

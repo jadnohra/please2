@@ -1,23 +1,33 @@
 from os import getcwd
 import subprocess
 
-def run(args, params, run_args):
+def _preprocess_run(args, params, run_args, run_kwargs={}):
+    def _process_kwargs(params, run_kwargs):
+        if 'cwd' not in run_kwargs:
+            working_dir = params.get('@', getcwd())
+            run_kwargs  = dict({'cwd': working_dir}, **run_kwargs)
+        return run_kwargs
     trace = '[trace]' in args.args
-    working_dir = params.get('@', getcwd())
+    run_kwargs = _process_kwargs(params, run_kwargs)
     if trace:
-        print(f' > {working_dir}$ {" ".join(run_args)}')
-    subprocess.run(run_args, cwd=working_dir)
+        run_args_str = run_args if isinstance(run_args, str) else " ".join(run_args)
+        print(f' > {run_kwargs["cwd"]}$ {run_args_str}')
+    return run_kwargs
 
-def run_get_stdout(args, params, run_args, shell=False, run_kwargs={}):
-    trace = '[trace]' in args.args
-    working_dir = params.get('@', getcwd())
-    if trace:
-        print(f' > {working_dir}$ {" ".join(run_args)}')
-    result = subprocess.run(run_args, stdout=subprocess.PIPE, cwd=working_dir, **run_kwargs)
+def run(args, params, run_args, run_kwargs={}, async=False):
+    _preprocess_run(args, params, run_args, run_kwargs)
+    if async:
+        subprocess.Popen(run_args, **run_kwargs)
+    else:
+        subprocess.run(run_args, **run_kwargs)
+
+def run_get_stdout(args, params, run_args, run_kwargs={}):
+    _preprocess_run(args, params, run_args, run_kwargs)
+    result = subprocess.run(run_args, stdout=subprocess.PIPE, **run_kwargs)
     result_stdout = result.stdout.decode('utf-8')
     return result_stdout.strip()
 
-def run_get_lines(args, params, run_args):
-    result_stdout = run_get_stdout(args, params, run_args)
+def run_get_lines(args, params, run_args, run_kwargs={}):
+    result_stdout = run_get_stdout(args, params, run_args, run_kwargs=run_kwargs)
     result_lines = [x.strip() for x in result_stdout.split('\n') if len(x.strip())]
     return result_lines
