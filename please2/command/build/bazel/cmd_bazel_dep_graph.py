@@ -55,7 +55,7 @@ class CommandBazelDepGraph(Command):
                     target_node.add_child(TreeNode(temp_png.name))
                     if 'visualize' in args.args:
                         eog_args = ['eog', temp_png.name]
-                        run(args, params, eog_args, async=True)
+                        run(args, params, eog_args, asnc=True)
         return Match(result = {
             'processed_files': result_tree
         })

@@ -14,9 +14,9 @@ def _preprocess_run(args, params, run_args, run_kwargs={}):
         print(f' > {run_kwargs["cwd"]}$ {run_args_str}')
     return run_kwargs
 
-def run(args, params, run_args, run_kwargs={}, async=False):
+def run(args, params, run_args, run_kwargs={}, asnc=False):
     _preprocess_run(args, params, run_args, run_kwargs)
-    if async:
+    if asnc:
         subprocess.Popen(run_args, **run_kwargs)
     else:
         subprocess.run(run_args, **run_kwargs)
