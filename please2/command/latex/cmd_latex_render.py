@@ -16,7 +16,6 @@ class CommandLatexRender(Command):
         return 'latex render'
 
     def run_match(self, args, params):
-        two_sided = 'two-sided' in args.args
         latex_code = get_positional_after(args.args, self.key().split()[-1])
         print(latex_code)
         return Match('')
