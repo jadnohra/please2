@@ -35,26 +35,35 @@ class CommandTexRender(Command):
         with tempfile.NamedTemporaryFile(delete=False, suffix='.tex', mode='w') as tex_dot:
             tex_dot.write(make_tex_doc(latex_code))
             tex_dot.flush()
-            target_node = result_tree.add_child(TreeNode(tex_dot.name))
+            result_tree.add_child(TreeNode(tex_dot.name))
             temp_path = os.path.split(tex_dot.name)[0]
-            tex_args = ['pdflatex', '-interaction=nonstopmode',
-                        '-output-format=dvi', tex_dot.name]
+
             run_kwargs = {'cwd':temp_path}
             if 'debug' not in args.args:
                 run_kwargs['stdout'] = subprocess.DEVNULL
-            run(args, params, tex_args, run_kwargs=run_kwargs)
-            dvi_path = tex_dot.name.replace('.tex', '.dvi')
-            target_node = result_tree.add_child(TreeNode(dvi_path))
-            '''
-            pdf_path = tex_dot.name.replace('.tex', '.pdf')
-            crop_args = ['pdfcrop', pdf_path]
-            run(args, params, crop_args, run_kwargs=run_kwargs)
-            '''
+
+            if True:
+                tex_args = ['pdflatex', '-interaction=nonstopmode',
+                            '-output-format=dvi', tex_dot.name]
+
+                run(args, params, tex_args, run_kwargs=run_kwargs)
+                dvi_path = tex_dot.name.replace('.tex', '.dvi')
+                result_tree.add_child(TreeNode(dvi_path))
+
+            if False:
+                tex_args = ['pdflatex', '-interaction=nonstopmode',
+                            '-output-format=pdf', tex_dot.name]
+                run(args, params, tex_args, run_kwargs=run_kwargs)
+                pdf_path = tex_dot.name.replace('.tex', '.pdf')
+                crop_args = ['pdfcrop', pdf_path]
+                run(args, params, crop_args, run_kwargs=run_kwargs)
+                result_tree.add_child(TreeNode(pdf_path))
+
             png_path = tex_dot.name.replace('.tex', '.png')
             dvipng_args = ['dvipng', '-T', 'tight',
                             '-o', os.path.split(png_path)[1], dvi_path]
             run(args, params, dvipng_args, run_kwargs=run_kwargs)
-            target_node = result_tree.add_child(TreeNode(png_path))
+            result_tree.add_child(TreeNode(png_path))
             if 'visualize' in args.args:
                 display_image(args, params, png_path)
         return Match(result = {
