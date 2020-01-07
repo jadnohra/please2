@@ -29,4 +29,4 @@ import please2.command.alternatives.cmd_alternatives_choose
 import please2.command.network.cmd_network_devices_ls
 import please2.command.github.cmd_github_new_ssh
 import please2.command.ssh.cmd_ssh_new
-import please2.command.latex.cmd_latex_render
+import please2.command.tex.cmd_tex_render

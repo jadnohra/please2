@@ -44,6 +44,9 @@ class Command:
     def key_split(self):
         return Args(self.key().split())
 
+    def references(self):
+        return []
+
     def parametrize(self, args):
         key_args = self.key_split()
         if args.asym_match(key_args):
