@@ -5,17 +5,16 @@ import please2.reg_cmd as reg_cmd
 from ...cmd_base import Command, Match
 from please2.util.tree import TreeNode
 from please2.util.run import run, run_get_stdout
-from please2.util.platform import display_image
 from please2.util.args import get_positional_after
 from please2.util.chain import find_tree_as_list
 
 class CommandBazelDepGraph(Command):
 
     def help(self):
-        return self.key() + ' <target> [visualize] [@ <dir>]'
+        return self.key() + ' <target> [@ <dir>]'
 
     def opt_keys(self):
-        return set(['@', 'visualize'])
+        return set(['@'])
 
     def key(self):
         return 'bazel dep graph'
@@ -48,10 +47,8 @@ class CommandBazelDepGraph(Command):
                     dot_args = ['dot', temp_dot.name, '-Tpng', '-o', temp_png.name]
                     run(args, params, dot_args)
                     target_node.add_child(TreeNode(temp_png.name))
-                    if 'visualize' in args.args:
-                        display_image(args, params, temp_png.name)
         return Match(result = {
-            'temp_files': result_tree
+            'out': result_tree
         })
 
 

@@ -7,17 +7,16 @@ from ..cmd_base import Command, Match
 from please2.util.run import run
 from please2.util.tree import TreeNode
 from please2.util.input import resolve_smart_input
-from please2.util.platform import display_image
 from please2.util.run import run_get_lines
 from please2.util.args import get_positional_after
 
 class CommandTexPreview(Command):
 
     def help(self):
-        return self.key() + ' <tex-code> [packages <packages>] [visualize] [debug]'
+        return self.key() + ' <tex-code> [packages <packages>] [auxiliary] [debug]'
 
     def opt_keys(self):
-        return set(['packages','visualize', 'debug'])
+        return set(['packages', 'auxiliary', 'debug'])
 
     def key(self):
         return 'tex preview'
@@ -43,7 +42,6 @@ class CommandTexPreview(Command):
         with tempfile.NamedTemporaryFile(delete=False, suffix='.tex', mode='w') as tex_dot:
             tex_dot.write(make_tex_doc(latex_code, packages))
             tex_dot.flush()
-            result_tree.add_child(TreeNode(tex_dot.name))
             temp_path = os.path.split(tex_dot.name)[0]
 
             run_kwargs = {'cwd':temp_path}
@@ -56,7 +54,6 @@ class CommandTexPreview(Command):
 
                 run(args, params, tex_args, run_kwargs=run_kwargs)
                 dvi_path = tex_dot.name.replace('.tex', '.dvi')
-                result_tree.add_child(TreeNode(dvi_path))
 
             if False:
                 tex_args = ['pdflatex', '-interaction=nonstopmode',
@@ -71,11 +68,13 @@ class CommandTexPreview(Command):
             dvipng_args = ['dvipng', '-T', 'tight',
                             '-o', os.path.split(png_path)[1], dvi_path]
             run(args, params, dvipng_args, run_kwargs=run_kwargs)
+
             result_tree.add_child(TreeNode(png_path))
-            if 'visualize' in args.args:
-                display_image(args, params, png_path)
+            if 'auxiliary' in args.args:
+                result_tree.add_child(TreeNode(dvi_path))
+                result_tree.add_child(TreeNode(tex_dot.name))
         return Match(result = {
-            'temp_files': result_tree
+            'out': result_tree
         })
 
 

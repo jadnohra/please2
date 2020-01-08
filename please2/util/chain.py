@@ -23,5 +23,6 @@ def find_tree_as_list(params):
         flat_tree = TreeNode('')
         flatten_tree(tree_v, flat_tree)
         items = [os.path.join(path_root, child.name()) for child in flat_tree.children()]
+        items = [x for x in items if len(x.strip())]
         return items
     return None
