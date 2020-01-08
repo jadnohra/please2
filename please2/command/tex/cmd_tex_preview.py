@@ -7,7 +7,7 @@ from ..cmd_base import Command, Match
 from please2.util.run import run
 from please2.util.tree import TreeNode
 from please2.util.input import resolve_smart_input
-from please2.util.os import display_image
+from please2.util.platform import display_image
 from please2.util.run import run_get_lines
 from please2.util.args import get_positional_after
 

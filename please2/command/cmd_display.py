@@ -3,6 +3,7 @@ from .cmd_base import Command, Match
 from please2.util.tree import TreeNode
 from please2.util.args import get_positional_after
 from please2.util.chain import find_tree_as_list
+from please2.util.platform import display_any
 
 class CommandDisplay(Command):
 
@@ -16,14 +17,11 @@ class CommandDisplay(Command):
         return 'display'
 
     def run_match(self, args, params):
-        # TODO display dependeing on file type, use util.os
         filenames = find_tree_as_list(params)
         if filenames is None:
             filenames = [get_positional_after(args.args, self.key().split()[-1])]
         for filename in filenames:
-            with open(filename) as fi:
-                text = fi.read()
-                print(text)
+            display_any(args, params, filename)
         return Match('')
 
 

@@ -5,7 +5,7 @@ import please2.reg_cmd as reg_cmd
 from ...cmd_base import Command, Match
 from please2.util.tree import TreeNode
 from please2.util.run import run, run_get_stdout
-from please2.util.os import display_image
+from please2.util.platform import display_image
 from please2.util.args import get_positional_after
 from please2.util.chain import find_tree_as_list
 
