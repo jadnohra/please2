@@ -11,7 +11,7 @@ from please2.util.os import display_image
 from please2.util.run import run_get_lines
 from please2.util.args import get_positional_after
 
-class CommandTexRender(Command):
+class CommandTexPreview(Command):
 
     def help(self):
         return self.key() + ' <tex-code> [packages <packages>] [visualize] [debug]'
@@ -20,7 +20,7 @@ class CommandTexRender(Command):
         return set(['packages','visualize', 'debug'])
 
     def key(self):
-        return 'tex render'
+        return 'tex preview'
 
     def references(self):
         return ['https://tex.stackexchange.com/questions/11866',
@@ -79,4 +79,4 @@ class CommandTexRender(Command):
         })
 
 
-reg_cmd.register_command(CommandTexRender())
+reg_cmd.register_command(CommandTexPreview())

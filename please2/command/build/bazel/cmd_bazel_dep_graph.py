@@ -7,8 +7,7 @@ from please2.util.tree import TreeNode
 from please2.util.run import run, run_get_stdout
 from please2.util.os import display_image
 from please2.util.args import get_positional_after
-from please2.util.chain import find_tree
-from please2.util.tree_algo import flatten_tree
+from please2.util.chain import find_tree_as_list
 
 class CommandBazelDepGraph(Command):
 
@@ -22,15 +21,10 @@ class CommandBazelDepGraph(Command):
         return 'bazel dep graph'
 
     def run_match(self, args, params):
-        tree_k, tree_v = find_tree(params)
-        bzl_use_paths = False
-        if tree_k:
-            path_root = tree_v.label_layer('root').value()
-            flat_tree = TreeNode('')
-            flatten_tree(tree_v, flat_tree)
-            targets = [os.path.join(path_root, child.name()) for child in flat_tree.children()]
-            bzl_use_paths = True
-        else:
+        bzl_use_paths = True
+        targets = find_tree_as_list(params)
+        if targets is None:
+            bzl_use_paths = False
             targets = [get_positional_after(args.args, self.key().split()[-1])]
         result_tree = TreeNode('')
         for target in targets:
