@@ -13,10 +13,10 @@ from please2.util.args import get_positional_after
 class CommandTexPreview(Command):
 
     def help(self):
-        return self.key() + ' <tex-code> [packages <packages>] [auxiliary] [debug]'
+        return self.key() + ' <tex-code> [packages <packages>] [auxiliary] [debug-tex]'
 
     def opt_keys(self):
-        return set(['packages', 'auxiliary', 'debug'])
+        return set(['packages', 'auxiliary', 'debug-tex'])
 
     def key(self):
         return 'tex preview'
@@ -45,7 +45,7 @@ class CommandTexPreview(Command):
             temp_path = os.path.split(tex_dot.name)[0]
 
             run_kwargs = {'cwd':temp_path}
-            if 'debug' not in args.args:
+            if 'debug-tex' not in args.args:
                 run_kwargs['stdout'] = subprocess.DEVNULL
 
             if True:
