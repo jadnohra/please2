@@ -18,7 +18,8 @@ import please2.command.git.cmd_git_which_branch
 import please2.command.git.cmd_git_ls_branches
 import please2.command.git.cmd_git_ls_commits
 import please2.command.git.cmd_git_new_branch
-import please2.command.git.cmd_git_switch_to_branch
+import please2.command.git.cmd_git_goto_branch
+import please2.command.git.cmd_git_goto
 import please2.command.git.cmd_git_arrow
 import please2.command.docker.cmd_docker_ls_images
 import please2.command.docker.cmd_docker_ls_containers
