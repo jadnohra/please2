@@ -23,7 +23,7 @@ class CommandGitMoveCacheLocal(Command):
             return Match(result = {'note': 'Everything is already in sync ;)'})
         pprint_ws_modifs(modifs)
         commit_msg = resolve_smart_input(commit_msg, prompt_str=' Commit message: ')
-        exitcode_ok = exitcode_ok and git_commit(args, params, commit_msg=commit_msg) == 0
+        exitcode_ok = git_commit(args, params, commit_msg=commit_msg) == 0
         if exitcode_ok:
             return Match('')
         else:
