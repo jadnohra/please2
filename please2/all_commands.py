@@ -12,7 +12,7 @@ import please2.command.cmd_extract
 import please2.command.cmd_display
 import please2.command.build.cmd_build_ls
 import please2.command.build.bazel.cmd_bazel_dep_graph
-import please2.command.git.cmd_git_help
+import please2.command.git.cmd_git_quickref
 import please2.command.git.cmd_git_ls_remotes
 import please2.command.git.cmd_git_which_branch
 import please2.command.git.cmd_git_ls_branches

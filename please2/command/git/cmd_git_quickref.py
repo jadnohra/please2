@@ -16,15 +16,16 @@ help_ascii = '''
       +                    +            +              +
       | <-checkout-index-+ |            | <--fetch---+ |
       |                    |            |              |
-      +----+diff-index+----+            |              |
+      +-----diff-index-----+            |              |
       |                    |            |              |
       | <-----------checkout----------+ |              |
       | <-------------merge-----------+ |              |
       |                    |            |              |
-      +------------+diff+---------------+              |
+      +-------------diff----------------+              |
       |                    |            |              |
-      | <------------------+-pull/rebase+------------+ +
-      |                                 |
+      | <--------------------pull/rebase-------------+ +
+      |                    |            |
+      |                    +            |
   ~~~~~~~~~                         ~~~~~~~~~
 Directory of files           Directory .git including
 you see and edit             an objects directory containing
@@ -34,7 +35,7 @@ you see and edit             an objects directory containing
                              as a compressed "blob" file
 '''
 
-class CommandGitHelp(Command):
+class CommandGitQuickref(Command):
 
     def help(self):
         return self.key()
@@ -44,7 +45,7 @@ class CommandGitHelp(Command):
                 'https://stackoverflow.com/questions/57547095/where-does-git-merge-fit-in-this-diagrams']
 
     def key(self):
-        return 'git help'
+        return 'git quickref'
 
     def run_match(self, args, params):
         return Match({'info': help_ascii})
@@ -55,4 +56,4 @@ class CommandGitHelp(Command):
 # https://stackoverflow.com/questions/40978921/how-to-add-chmod-permissions-to-file-in-git/40979016
 # http://justinhileman.info/article/git-pretty/git-pretty.png
 
-reg_cmd.register_command(CommandGitHelp())
+reg_cmd.register_command(CommandGitQuickref())
