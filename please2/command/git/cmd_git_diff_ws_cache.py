@@ -2,7 +2,6 @@ import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
 from .cmd_git_util import make_error_result, get_ws_modifs, pprint_ws_modifs
 from please2.util.args import get_positional_after
-from please2.util.input import resolve_smart_input
 
 class CommandGitDiffWsCache(Command):
 

@@ -11,7 +11,7 @@ def _preprocess_run(args, params, run_args, run_kwargs={}):
     run_kwargs = _process_kwargs(params, run_kwargs)
     if trace:
         run_args_str = run_args if isinstance(run_args, str) else " ".join(run_args)
-        print(f' (cd {run_kwargs["cwd"]}; {run_args_str})')
+        print(f' TRACE: (cd {run_kwargs["cwd"]}; {run_args_str})')
     return run_kwargs
 
 def run(args, params, run_args, run_kwargs={}, asnc=False):
