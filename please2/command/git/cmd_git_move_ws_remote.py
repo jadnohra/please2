@@ -5,7 +5,7 @@ from .cmd_git_util import make_error_result, get_ws_modifs, pprint_ws_modifs, \
 from please2.util.args import get_positional_after
 from please2.util.input import resolve_smart_input
 
-class CommandGitMoveWsUpstream(Command):
+class CommandGitMoveWsRemote(Command):
 
     def help(self):
         return self.key() + ' <commit-message> [@ <dir>]'
@@ -14,7 +14,7 @@ class CommandGitMoveWsUpstream(Command):
         return set(['@'])
 
     def key(self):
-        return 'git move ws-upstream'
+        return 'git move ws-remote'
 
     def run_match(self, args, params):
         commit_msg = get_positional_after(args.args, self.key().split()[-1])
@@ -31,4 +31,4 @@ class CommandGitMoveWsUpstream(Command):
         else:
             return Match(result = {'error': 'Panic >:('})
 
-reg_cmd.register_command(CommandGitMoveWsUpstream())
+reg_cmd.register_command(CommandGitMoveWsRemote())

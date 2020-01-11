@@ -4,7 +4,7 @@ from .cmd_git_util import make_error_result, git_clone
 from please2.util.args import get_positional_after
 
 
-class CommandGitMoveUpstreamWs(Command):
+class CommandGitMoveRemoteWs(Command):
 
     def help(self):
         return self.key() + ' <url> [branch <name>] [only] [@ <dir>]'
@@ -14,7 +14,7 @@ class CommandGitMoveUpstreamWs(Command):
 
 
     def key(self):
-        return 'git move upstream-ws'
+        return 'git move remote-ws'
 
     def run_match(self, args, params):
         url = get_positional_after(args.args, self.key().split()[-1])
@@ -27,4 +27,4 @@ class CommandGitMoveUpstreamWs(Command):
         else:
             return Match(result = {'error': 'Panic >:('})
 
-reg_cmd.register_command(CommandGitMoveUpstreamWs())
+reg_cmd.register_command(CommandGitMoveRemoteWs())
