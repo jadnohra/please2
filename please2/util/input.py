@@ -14,10 +14,11 @@ def input_indices(prompt):
             indices.extend(list(range(int(rng[0]), int(rng[1])+1)))
     return indices
 
-def resolve_smart_input(input_str):
-    if input_str == '[paste]':
+def resolve_smart_input(input_str, prompt_str=' input: '):
+    if input_str is None or (len(input_str.strip()) == 0) \
+        or input_str.lower() == '[ask]':
+        return input(prompt_str)
+    elif input_str == '[paste]':
         return clipboard.paste()
-    if input_str.lower() == '[ask]':
-        return input(' > ')
     else:
         return input_str

@@ -8,21 +8,22 @@ help_ascii = '''
               their sha1 checksums, time stamps
                        ~~~~~~~~~
                            |
-      +                    |            +            +
-      | +------add-------> | +-commit-> | +--push--> |
-      +                    +            +            +
-   workspace            staging       local       remote
-      +                 (branch)      (repo)      (repo)
-      |                    +            +            +
-      | <-checkout-index-+ |            | <--fetch-+ |
-      |                    |            |            |
-      +----+diff-index+----+            |            |
-      |                    |            |            |
-      | <-----------checkout----------+ |            |
-      |                    |            |            |
-      +------------+diff+---------------+            |
-      |                    |            |            |
-      | <------------------+-pull/rebase+----------+ +
+      +                    |            +              +
+      | +------add-------> | +-commit-> | +--push----> |
+      +                    +            +              +
+   workspace             cache   local/downstream  remote/upstream
+    (files)             (branch)      (repo)          (repo)
+      +                    +            +              +
+      | <-checkout-index-+ |            | <--fetch---+ |
+      |                    |            |              |
+      +----+diff-index+----+            |              |
+      |                    |            |              |
+      | <-----------checkout----------+ |              |
+      | <-------------merge-----------+ |              |
+      |                    |            |              |
+      +------------+diff+---------------+              |
+      |                    |            |              |
+      | <------------------+-pull/rebase+------------+ +
       |                                 |
   ~~~~~~~~~                         ~~~~~~~~~
 Directory of files           Directory .git including
@@ -38,6 +39,10 @@ class CommandGitHelp(Command):
     def help(self):
         return self.key()
 
+    def references(self):
+        return ['http://www.ndpsoftware.com/git-cheatsheet.html#loc=index;',
+                'https://stackoverflow.com/questions/57547095/where-does-git-merge-fit-in-this-diagrams']
+
     def key(self):
         return 'git help'
 
@@ -48,5 +53,6 @@ class CommandGitHelp(Command):
 # TODO: git log --graph --full-history --all --color         --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"
 # https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 # https://stackoverflow.com/questions/40978921/how-to-add-chmod-permissions-to-file-in-git/40979016
+# http://justinhileman.info/article/git-pretty/git-pretty.png
 
 reg_cmd.register_command(CommandGitHelp())

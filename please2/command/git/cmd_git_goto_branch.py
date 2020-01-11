@@ -4,7 +4,7 @@ from .cmd_git_util import checkout_branch, run_git_get_lines
 from please2.util.args import get_positional_after
 
 
-class CommandGitSwitchToBranch(Command):
+class CommandGitGotoBranch(Command):
 
     def help(self):
         return self.key() + ' <branch-name> [@ <dir>]'
@@ -14,7 +14,7 @@ class CommandGitSwitchToBranch(Command):
 
 
     def key(self):
-        return 'git switch to branch'
+        return 'git goto branch'
 
     def run_match(self, args, params):
         name = get_positional_after(args.args, self.key().split()[-1])
@@ -22,4 +22,4 @@ class CommandGitSwitchToBranch(Command):
         return Match('')
 
 
-reg_cmd.register_command(CommandGitSwitchToBranch())
+reg_cmd.register_command(CommandGitGotoBranch())

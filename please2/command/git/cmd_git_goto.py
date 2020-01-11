@@ -7,10 +7,10 @@ from please2.util.args import get_positional_after
 class CommandGitGoto(Command):
 
     def help(self):
-        return self.key() + ' <key (commit-hash, tag, [last])> [kill local changes] [@ <dir>]'
+        return self.key() + ' <key (commit-hash, tag, [last])> [nuke local changes] [@ <dir>]'
 
     def opt_keys(self):
-        return set(['@', 'kill local changes'])
+        return set(['@', 'nuke local changes'])
 
 
     def key(self):
@@ -20,7 +20,7 @@ class CommandGitGoto(Command):
         name = get_positional_after(args.args, self.key().split()[-1])
         if name == '[last]':
             name = None
-        hard = 'kill local changes' in ' '.join(args.args_low)
+        hard = 'nuke local changes' in ' '.join(args.args_low)
         git_reset(args, params, name, soft=(not hard))
         return Match('')
 
