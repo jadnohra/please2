@@ -3,7 +3,7 @@ from ..cmd_base import Command, Match
 from please2.util.args import get_positional_after
 from please2.util.run import run
 
-class CommandGitDiffWsRemote(Command):
+class CommandGitDiffTrackedRemote(Command):
 
     def help(self):
         return self.key() + ' [@ <dir>]'
@@ -15,7 +15,7 @@ class CommandGitDiffWsRemote(Command):
         return set(['@'])
 
     def key(self):
-        return 'git diff ws-remote'
+        return 'git diff tracked-remote'
 
     def run_match(self, args, params):
         run(args, params, ['git', 'diff', '@{push}', '--compact-summary'])
@@ -23,4 +23,4 @@ class CommandGitDiffWsRemote(Command):
         # TODO return trees instead of pprint, analyze results
         return Match('')
 
-reg_cmd.register_command(CommandGitDiffWsRemote())
+reg_cmd.register_command(CommandGitDiffTrackedRemote())
