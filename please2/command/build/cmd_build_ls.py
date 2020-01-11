@@ -23,7 +23,7 @@ class CommandBuildLs(Command):
         return 'build ls'
 
     def layer_name(self):
-        return 'build_ls'
+        return 'build-ls'
 
     def run_match(self, args, params):
         def dir_filter_func(name):

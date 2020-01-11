@@ -4,8 +4,12 @@ def pprint_tree_node(tree, key=None, index_label_key=None):
     def pprint_name(node):
         postfix = ''
         if node.has_label_layer(key):
-            lbl_join = ', '.join(node.label_layer(key).labels())
-            postfix = ' <----- ' + lbl_join
+            labels = node.label_layer(key).labels()
+            if len(labels):
+                lbl_str = ', '.join(labels)
+            else:
+                lbl_str = node.label_layer(key).value()
+            postfix = ' <----- ' + lbl_str
         node_name = node.name()
         if isinstance(node_name, tuple):
             node_name = "{}: {}".format(node_name[0], node_name[1])

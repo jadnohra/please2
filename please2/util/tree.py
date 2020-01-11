@@ -65,6 +65,9 @@ class TreeNode:
     def set_children(self, children):
         self._children = list(children)
 
+    def get_label_layer(self, name):
+        return self._label_layers.get(name, None)
+
     def label_layer(self, name):
         if name not in self._label_layers:
             self._label_layers[name] = self.LabelLayer()

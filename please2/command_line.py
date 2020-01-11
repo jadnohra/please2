@@ -19,8 +19,11 @@ def pprint_match(result):
         for k,v in result.items():
             pprint_any(v, k)
         return
-    pp = pprint.PrettyPrinter(indent=2)
-    pp.pprint(result)
+    if isinstance(result, str):
+        print(f'  {result}')
+    else:
+        pp = pprint.PrettyPrinter(indent=2)
+        pp.pprint(result)
 
 
 def split_into_cmd_chains(argv, chain_sep='---'):
