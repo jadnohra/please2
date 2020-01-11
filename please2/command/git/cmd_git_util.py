@@ -24,9 +24,9 @@ def is_in_git_repo(args, params):
     result_stdout = run_git_get_stdout(args, params, ['rev-parse', '--is-inside-work-tree'])
     return result_stdout.strip().lower() == 'true'
 
-def run_git_get_lines(args, params, git_args):
+def run_git_get_lines(args, params, git_args, strip=True):
     run_args = ['git']+git_args
-    return run_get_lines(args, params, run_args)
+    return run_get_lines(args, params, run_args, strip=strip)
 
 def make_error_result(args, params):
     is_repo = is_in_git_repo(args, params)
@@ -75,14 +75,17 @@ def git_clone(args, params, upsteam_url, *, no_checkout, branch_name, single_bra
 def get_ws_modifs(args, params, *, ws_cache=True, cache_local=True):
     git_args = ['status', '--porcelain']
     #_extend_cond_args(git_args, cached, ['--cached'])
-    lines = run_git_get_lines(args, params, git_args)
-    modifs = [(line[:2], line[2:]) for line in lines]
+    lines = run_git_get_lines(args, params, git_args, strip=False)
+    print(lines)
+    modifs = [(line[:2], line[2:]) for line in lines if len(line.strip())]
     filtered_modifs = []
+    print(modifs)
     if not ws_cache or not cache_local:
         for modif in modifs:
             key, info = modif
-            if not((ws_cache == False and key[1] in [' ', '?'])
-                or (cache_local == False and key[0] == ' ')):
+            print('[{}]'.format(key))
+            if not((ws_cache == False and key[0] in [' ', '?'])
+                or (cache_local == False and key[1] == ' ')):
                     filtered_modifs.append(modif)
         return filtered_modifs
     else:
@@ -96,9 +99,9 @@ def pprint_ws_modifs(modifs, ws_cache=True, cache_local=True, header="\nModifica
     if ws_cache and cache_local:
         print('\n'.join([f' {x[0]} {x[1]}' for x in modifs]))
     elif ws_cache:
-        print('\n'.join([f' {x[0][0]} {x[1]}' for x in modifs]))
-    elif cache_local:
         print('\n'.join([f' {x[0][1]} {x[1]}' for x in modifs]))
+    elif cache_local:
+        print('\n'.join([f' {x[0][0]} {x[1]}' for x in modifs]))
     else:
         print('\n'.join([f' {x[0]} {x[1]}' for x in modifs]))
     if footer:

@@ -8,7 +8,7 @@ from please2.util.input import resolve_smart_input
 class CommandGitMoveWsCache(Command):
 
     def help(self):
-        return self.key() + ' <commit-message> [@ <dir>]'
+        return self.key() + ' [@ <dir>]'
 
     def opt_keys(self):
         return set(['@'])
@@ -17,14 +17,11 @@ class CommandGitMoveWsCache(Command):
         return 'git move ws-cache'
 
     def run_match(self, args, params):
-        commit_msg = get_positional_after(args.args, self.key().split()[-1])
-        modifs = get_ws_modifs(args, params)
+        modifs = get_ws_modifs(args, params, ws_cache=True, cache_local=False)
         if len(modifs) == 0:
             return Match(result = {'note': 'Everything is already in sync ;)'})
         pprint_ws_modifs(modifs)
-        commit_msg = resolve_smart_input(commit_msg, prompt_str=' Commit message: ')
         exitcode_ok = git_add(args, params) == 0
-        exitcode_ok = exitcode_ok and git_commit(args, params, commit_msg=commit_msg) == 0
         if exitcode_ok:
             return Match('')
         else:

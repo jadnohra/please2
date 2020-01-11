@@ -20,6 +20,6 @@ class CommandGitDiffWsCache(Command):
             return Match(result = {'note': 'There are no modifications'})
         pprint_ws_modifs(modifs, ws_cache=False, cache_local=True)
         # TODO return trees instead of pprint
-        return Match('out')
+        return Match('')
 
 reg_cmd.register_command(CommandGitDiffWsCache())

@@ -23,19 +23,21 @@ def run(args, params, run_args, run_kwargs={}, asnc=False):
         result = subprocess.run(run_args, **run_kwargs)
         return result.returncode
 
-def run_get_exitcode_stdout(args, params, run_args, run_kwargs={}):
+def run_get_exitcode_stdout(args, params, run_args, run_kwargs={}, strip=True):
     _preprocess_run(args, params, run_args, run_kwargs)
     result = subprocess.run(run_args, stdout=subprocess.PIPE, **run_kwargs)
     result_stdout = result.stdout.decode('utf-8')
-    return result.returncode, result_stdout.strip()
+    return result.returncode, result_stdout.strip() if strip else result_stdout
 
-def run_get_stdout(args, params, run_args, run_kwargs={}):
-    return run_get_exitcode_stdout(args, params, run_args, run_kwargs=run_kwargs)[1]
+def run_get_stdout(args, params, run_args, run_kwargs={}, strip=True):
+    return run_get_exitcode_stdout(args, params, run_args, run_kwargs=run_kwargs, strip=strip)[1]
 
-def run_get_exitcode_lines(args, params, run_args, run_kwargs={}):
-    exitcode, result_stdout = run_get_exitcode_stdout(args, params, run_args, run_kwargs=run_kwargs)
-    result_lines = [x.strip() for x in result_stdout.split('\n') if len(x.strip())]
+def run_get_exitcode_lines(args, params, run_args, run_kwargs={}, strip=True):
+    exitcode, result_stdout = run_get_exitcode_stdout(args, params, run_args, run_kwargs=run_kwargs, strip=strip)
+    result_lines = result_stdout.split('\n')
+    if strip:
+        result_lines = [x for x in result_lines if len(x.strip())]
     return exitcode, result_lines
 
-def run_get_lines(args, params, run_args, run_kwargs={}):
-    return run_get_exitcode_lines(args, params, run_args, run_kwargs=run_kwargs)[1]
+def run_get_lines(args, params, run_args, run_kwargs={}, strip=True):
+    return run_get_exitcode_lines(args, params, run_args, run_kwargs=run_kwargs, strip=strip)[1]
