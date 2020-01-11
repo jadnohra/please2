@@ -79,10 +79,11 @@ class TreeNode:
     def has_label_layer(self, name):
         return name in self._label_layers
 
-    def label_value(self, name):
+    def label_value(self, name, dflt=None):
         if name in self._label_layers:
-            return self._label_layers[name].value()
-        return None
+            value = self._label_layers[name].value()
+            return value if (value is not None) else dflt
+        return dflt
 
     def add_child(self, child):
         self._children.append(child)
