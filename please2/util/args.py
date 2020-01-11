@@ -12,3 +12,9 @@ def get_positional_at(args, index):
 
 def get_positional_after(args, key):
     return get_positional_at(args, args.index(key)+1)
+
+def get_positionals_after(args, key):
+    if key in args:
+        return args[args.index(key)+1:]
+    else:
+        return None
