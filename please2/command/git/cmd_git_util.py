@@ -74,7 +74,7 @@ def git_clone(args, params, upsteam_url, *, no_checkout, branch_name, single_bra
 
 def get_ws_modifs(args, params):
     lines = run_git_get_lines(args, params, ['status', '--porcelain'])
-    return [(line[:2], line[3:]) for line in lines]
+    return [(line[:2], line[2:]) for line in lines]
 
 def pprint_ws_modifs(modifs, header="\nModifications", footer="\n"):
     # TODO clip if too large
