@@ -15,6 +15,8 @@ def find_tree(params):
     return (None, None)
 
 def tree_to_list(tree, include_node_func=(lambda node: True)):
+    if tree is None:
+        return []
     path_root = tree.label_layer('root').value()
     if path_root is None:
         path_root = ''
