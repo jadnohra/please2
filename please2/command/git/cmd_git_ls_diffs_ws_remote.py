@@ -19,6 +19,7 @@ class CommandGitLsDiffsWsRemote(Command):
         return 'git ls diffs ws-remote'
 
     def run_match(self, args, params):
+        # TODO: Fix this
         '''
         ws_modifs = get_ws_modifs(args, params, ws_cache=True, cache_local=False)
         untracked_ws_modifs = include_filter_ws_modifs(ws_modifs, include_tracked=False)
