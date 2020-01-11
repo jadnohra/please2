@@ -86,51 +86,26 @@ def create_git_diff_node(name, label, layer_name=git_diff_layer_name()):
     node.label_layer(layer_name).set_value(label)
     return node
 
-def get_ws_modifs(args, params, *, ws_cache=True, cache_local=True):
-    git_args = ['status', '--porcelain']
-    #_extend_list_cond(git_args, cached, ['--cached'])
-    lines = run_git_get_lines(args, params, git_args, strip=False)
-    modifs = [(line[:2], line[3:]) for line in lines if len(line.strip())]
-    filtered_modifs = []
-    for key, filename in modifs:
-        ws_cache_key = key[1] if ws_cache else ''
-        ws_cache_key = '' if ws_cache_key in [' '] else ws_cache_key
-        cache_local_key = key[0] if cache_local else ''
-        cache_local_key = '' if cache_local_key in [' ', '?'] else cache_local_key
-        combined_key = ws_cache_key + cache_local_key
-        if len(combined_key):
-            filtered_modifs.append( (combined_key, filename) )
-    return filtered_modifs
-
 def get_ws_modifs_tree(args, params, *, ws_cache=True, cache_local=True):
     git_args = ['status', '--porcelain']
     lines = run_git_get_lines(args, params, git_args, strip=False)
     modifs = [(line[:2], line[3:]) for line in lines if len(line.strip())]
     root = create_git_diff_root_node(params)
     for key, filename in modifs:
-        ws_cache_key = key[1] if ws_cache else None
-        ws_cache_key = '_' if ws_cache_key in [' '] else ws_cache_key
-        cache_local_key = key[0] if cache_local else None
-        cache_local_key = '_' if cache_local_key in [' ', '?'] else cache_local_key
-        if ws_cache_key or cache_local_key:
-            keys = []
-            _extend_list_cond(keys, ws_cache_key, [ws_cache_key])
-            _extend_list_cond(keys, cache_local_key, [cache_local_key])
-            node = create_git_diff_node(filename, ''.join(keys))
-            '''
-            if ws_cache and cache_local:
-                if ws_cache_key != '_':
-                    node.label_layer(git_diff_layer_name()+'-stage').set_label('ws-cache')
-                if cache_local_key != '_':
-                    node.label_layer(git_diff_layer_name()+'-stage').set_label('cache-local')
-            '''
+        active_keys = []
+        both_keys = ws_cache and cache_local
+        ws_cache_key = key[1]
+        cache_local_key = key[0]
+        is_ws_cache = (ws_cache_key != ' ')
+        is_cache_local = (cache_local_key != ' ')
+        _extend_list_cond(active_keys, both_keys or (ws_cache and is_ws_cache),
+                            ws_cache_key.replace(' ', '_'))
+        _extend_list_cond(active_keys, both_keys or (cache_local and is_cache_local),
+                            cache_local_key.replace(' ', '_').replace('?', '_'))
+        if len(active_keys):
+            node = create_git_diff_node(filename, ''.join(active_keys))
             root.add_child(node)
     return root
-
-def include_filter_ws_modifs(modifs, include_untracked=True, include_tracked=True):
-    def include_modif(modif):
-        return include_untracked if modif[0][1] == '?' else include_tracked
-    return [x for x in modifs if include_modif(x)]
 
 def modifs_to_files(modifs):
     files = set()

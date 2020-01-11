@@ -1,6 +1,7 @@
+'''
 import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
-from .cmd_git_util import make_error_result, get_ws_modifs, \
+from .cmd_git_util import make_error_result, \
                             git_add, git_commit, git_push
 from please2.util.args import get_positional_after
 from please2.util.input import resolve_smart_input
@@ -32,3 +33,4 @@ class CommandGitMoveWsRemote(Command):
             return Match(result = {'error': 'Panic >:('})
 
 reg_cmd.register_command(CommandGitMoveWsRemote())
+'''

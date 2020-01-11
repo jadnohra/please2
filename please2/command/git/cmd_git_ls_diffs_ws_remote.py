@@ -1,6 +1,6 @@
 import please2.reg_cmd as reg_cmd
 from ..cmd_base import Command, Match
-from .cmd_git_util import get_ws_modifs, include_filter_ws_modifs
+#from .cmd_git_util import get_ws_modifs, include_filter_ws_modifs
 from please2.util.args import get_positional_after
 from please2.util.run import run
 
@@ -19,6 +19,7 @@ class CommandGitLsDiffsWsRemote(Command):
         return 'git ls diffs ws-remote'
 
     def run_match(self, args, params):
+        '''
         ws_modifs = get_ws_modifs(args, params, ws_cache=True, cache_local=False)
         untracked_ws_modifs = include_filter_ws_modifs(ws_modifs, include_tracked=False)
         print('\nNew files:')
@@ -32,5 +33,6 @@ class CommandGitLsDiffsWsRemote(Command):
         # Not perfect, untracked files are missing
         # TODO return trees instead of pprint, analyze results
         return Match('')
+        '''
 
 reg_cmd.register_command(CommandGitLsDiffsWsRemote())

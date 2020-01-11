@@ -19,7 +19,7 @@ class CommandGitMoveWsLocal(Command):
 
     def run_match(self, args, params):
         def is_node_ws_cache(node):
-            return node.get_label_layer(git_diff_layer_name()).value()[0] != '_'
+            return node.get_label_layer(git_diff_layer_name()).value()[0] not in ['_', 'D']
         def is_node_cache_local(node):
             return node.get_label_layer(git_diff_layer_name()).value()[1] != '_'
 
