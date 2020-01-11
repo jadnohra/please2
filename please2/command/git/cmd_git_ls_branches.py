@@ -26,6 +26,7 @@ class CommandGitLsBranches(Command):
             return node
         remote = 'remote' in args.args
         if remote:
+            # TODO: fix, remote option somehow not working
             prefix = 'remotes/'
             result_lines = run_git_get_lines(args, params, ['branch', '-a'])
             result_lines = [x[len(prefix):] for x in result_lines if x.startswith(prefix)]
