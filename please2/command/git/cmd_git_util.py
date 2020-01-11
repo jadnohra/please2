@@ -76,14 +76,11 @@ def get_ws_modifs(args, params, *, ws_cache=True, cache_local=True):
     git_args = ['status', '--porcelain']
     #_extend_cond_args(git_args, cached, ['--cached'])
     lines = run_git_get_lines(args, params, git_args, strip=False)
-    print(lines)
     modifs = [(line[:2], line[2:]) for line in lines if len(line.strip())]
     filtered_modifs = []
-    print(modifs)
     if not ws_cache or not cache_local:
         for modif in modifs:
             key, info = modif
-            print('[{}]'.format(key))
             if not((ws_cache == False and key[0] in [' ', '?'])
                 or (cache_local == False and key[1] == ' ')):
                     filtered_modifs.append(modif)
