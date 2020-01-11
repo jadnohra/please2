@@ -22,9 +22,12 @@ import please2.command.git.cmd_git_goto_branch
 import please2.command.git.cmd_git_goto
 import please2.command.git.cmd_git_arrow
 import please2.command.git.cmd_git_move_remote_ws
-import please2.command.git.cmd_git_move_ws_index
+import please2.command.git.cmd_git_move_ws_cache
 import please2.command.git.cmd_git_move_ws_remote
-import please2.command.git.cmd_git_diff_ws_index
+import please2.command.git.cmd_git_diff_ws_cache
+import please2.command.git.cmd_git_diff_cache_local
+import please2.command.git.cmd_git_diff_ws_local
+import please2.command.git.cmd_git_diff_local_remote
 import please2.command.docker.cmd_docker_ls_images
 import please2.command.docker.cmd_docker_ls_containers
 import please2.command.docker.cmd_docker_kill_all_containers

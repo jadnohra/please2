@@ -11,7 +11,7 @@ help_ascii = '''
       +                    |            +              +
       | +------add-------> | +-commit-> | +--push----> |
       +                    +            +              +
-   workspace             cache   local/downstream  remote/upstream
+   workspace         cache/index   local/downstream  remote/upstream
     (files)             (branch)      (repo)          (repo)
       +                    +            +              +
       | <-checkout-index-+ |            | <--fetch---+ |

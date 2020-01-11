@@ -5,7 +5,7 @@ from .cmd_git_util import make_error_result, get_ws_modifs, pprint_ws_modifs, \
 from please2.util.args import get_positional_after
 from please2.util.input import resolve_smart_input
 
-class CommandGitMoveWsIndex(Command):
+class CommandGitMoveWsCache(Command):
 
     def help(self):
         return self.key() + ' <commit-message> [@ <dir>]'
@@ -14,7 +14,7 @@ class CommandGitMoveWsIndex(Command):
         return set(['@'])
 
     def key(self):
-        return 'git move ws-index'
+        return 'git move ws-cache'
 
     def run_match(self, args, params):
         commit_msg = get_positional_after(args.args, self.key().split()[-1])
@@ -30,4 +30,4 @@ class CommandGitMoveWsIndex(Command):
         else:
             return Match(result = {'error': 'Panic >:('})
 
-reg_cmd.register_command(CommandGitMoveWsIndex())
+reg_cmd.register_command(CommandGitMoveWsCache())

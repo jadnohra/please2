@@ -72,15 +72,35 @@ def git_clone(args, params, upsteam_url, *, no_checkout, branch_name, single_bra
     git_args.append(upsteam_url)
     return run_git_get_exitcode(args, params, git_args)
 
-def get_ws_modifs(args, params):
-    lines = run_git_get_lines(args, params, ['status', '--porcelain'])
-    return [(line[:2], line[2:]) for line in lines]
+def get_ws_modifs(args, params, *, ws_cache=True, cache_local=True):
+    git_args = ['status', '--porcelain']
+    #_extend_cond_args(git_args, cached, ['--cached'])
+    lines = run_git_get_lines(args, params, git_args)
+    modifs = [(line[:2], line[2:]) for line in lines]
+    filtered_modifs = []
+    if not ws_cache or not cache_local:
+        for modif in modifs:
+            key, info = modif
+            if not((ws_cache == False and key[1] in [' ', '?'])
+                or (cache_local == False and key[0] == ' ')):
+                    filtered_modifs.append(modif)
+        return filtered_modifs
+    else:
+        return modifs
 
-def pprint_ws_modifs(modifs, header="\nModifications", footer="\n"):
+
+def pprint_ws_modifs(modifs, ws_cache=True, cache_local=True, header="\nModifications", footer="\n"):
     # TODO clip if too large
     if header:
         print(header)
-    print('\n'.join([f' {x[0]} {x[1]}' for x in modifs]))
+    if ws_cache and cache_local:
+        print('\n'.join([f' {x[0]} {x[1]}' for x in modifs]))
+    elif ws_cache:
+        print('\n'.join([f' {x[0][0]} {x[1]}' for x in modifs]))
+    elif cache_local:
+        print('\n'.join([f' {x[0][1]} {x[1]}' for x in modifs]))
+    else:
+        print('\n'.join([f' {x[0]} {x[1]}' for x in modifs]))
     if footer:
         print(footer)
 
