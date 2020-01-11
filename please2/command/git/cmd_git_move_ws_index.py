@@ -20,7 +20,7 @@ class CommandGitMoveWsIndex(Command):
         commit_msg = get_positional_after(args.args, self.key().split()[-1])
         modifs = get_ws_modifs(args, params)
         if len(modifs) == 0:
-            return Match(result = {'note': 'Everything is already in sync'})
+            return Match(result = {'note': 'Everything is already in sync ;)'})
         pprint_ws_modifs(modifs)
         commit_msg = resolve_smart_input(commit_msg, prompt_str=' Commit message: ')
         exitcode_ok = git_add(args, params) == 0
