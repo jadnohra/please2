@@ -12,7 +12,7 @@ class CommandGitLsDiffsCacheLocal(Command):
         return set(['@'])
 
     def key(self):
-        return 'git ls diffs cache-local'
+        return 'git diffs cache-local'
 
     def layer_name(self):
         return git_diff_layer_name()

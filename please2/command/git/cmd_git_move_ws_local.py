@@ -15,7 +15,7 @@ class CommandGitMoveWsLocal(Command):
         return set(['@'])
 
     def key(self):
-        return 'git move ws-local'
+        return 'git ws-local'
 
     def run_match(self, args, params):
         def is_node_ws_cache(node):

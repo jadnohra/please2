@@ -16,7 +16,7 @@ class CommandGitLsDiffsWsRemote(Command):
         return set(['@'])
 
     def key(self):
-        return 'git ls diffs ws-remote'
+        return 'git diffs ws-remote'
 
     def run_match(self, args, params):
         # TODO: Fix this

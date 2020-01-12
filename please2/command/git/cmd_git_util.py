@@ -96,11 +96,11 @@ def get_ws_modifs_tree(args, params, *, ws_cache=True, cache_local=True):
         both_keys = ws_cache and cache_local
         ws_cache_key = key[1]
         cache_local_key = key[0]
-        is_ws_cache = (ws_cache_key != ' ')
-        is_cache_local = (cache_local_key not in [' ', '?'])
-        _extend_list_cond(active_keys, both_keys or (ws_cache and is_ws_cache),
+        has_ws_cache = (ws_cache_key != ' ')
+        has_cache_local = (cache_local_key not in [' ', '?'])
+        _extend_list_cond(active_keys, both_keys or (ws_cache and has_ws_cache),
                             ws_cache_key.replace(' ', '_'))
-        _extend_list_cond(active_keys, both_keys or (cache_local and is_cache_local),
+        _extend_list_cond(active_keys, both_keys or (cache_local and has_cache_local),
                             cache_local_key.replace(' ', '_').replace('?', '_'))
         if len(active_keys):
             node = create_git_diff_node(filename, ''.join(active_keys))

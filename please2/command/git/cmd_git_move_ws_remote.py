@@ -17,7 +17,7 @@ class CommandGitMoveWsRemote(Command):
         return set(['@'])
 
     def key(self):
-        return 'git move ws-remote'
+        return 'git ws-remote'
 
     def run_match(self, args, params):
         commit_msg = get_positional_after(args.args, self.key().split()[-1])

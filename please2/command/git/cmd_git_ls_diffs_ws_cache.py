@@ -12,7 +12,7 @@ class CommandGitLsDiffsWsCache(Command):
         return set(['@'])
 
     def key(self):
-        return 'git ls diffs ws-cache'
+        return 'git diffs ws-cache'
 
     def layer_name(self):
         return git_diff_layer_name()

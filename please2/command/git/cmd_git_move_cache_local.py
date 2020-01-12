@@ -14,7 +14,7 @@ class CommandGitMoveCacheLocal(Command):
         return set(['@'])
 
     def key(self):
-        return 'git move cache-local'
+        return 'git cache-local'
 
     def run_match(self, args, params):
         modifs = find_tree_as_list(params)

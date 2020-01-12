@@ -14,7 +14,7 @@ class CommandGitMoveRemoteWs(Command):
 
 
     def key(self):
-        return 'git move remote-ws'
+        return 'git remote-ws'
 
     def run_match(self, args, params):
         url = get_positional_after(args.args, self.key().split()[-1])

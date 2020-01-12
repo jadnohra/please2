@@ -12,7 +12,7 @@ class CommandGitLsDiffsWsLocal(Command):
         return set(['@'])
 
     def key(self):
-        return 'git ls diffs ws-local'
+        return 'git diffs ws-local'
 
     def layer_name(self):
         return git_diff_layer_name()

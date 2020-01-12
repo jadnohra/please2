@@ -14,7 +14,7 @@ class CommandGitMoveWsCache(Command):
         return set(['@'])
 
     def key(self):
-        return 'git move ws-cache'
+        return 'git ws-cache'
 
     def run_match(self, args, params):
         modifs = find_tree_as_list(params)
