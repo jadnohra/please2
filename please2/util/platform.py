@@ -9,16 +9,18 @@ def _darwin_is_iterm():
     return 'iterm' in os.environ.get('TERM_PROGRAM', '').lower()
 
 def display_image(args, params, filename):
+    run_kwargs = {}
     if platform.system().lower() == 'darwin':
         if _darwin_is_iterm():
             imgcat(open(filename))
             return
         else:
             tool_name = 'open'
+            run_kwargs['shell'] = True
     else:
         tool_name = 'eog'
     tool_args = [tool_name, filename]
-    run(args, params, tool_args, asnc=True, run_kwargs={'shell':True})
+    run(args, params, tool_args, asnc=True, run_kwargs=run_kwargs)
 
 def display_any_os(args, params, filename):
     tool_name = 'eog'
