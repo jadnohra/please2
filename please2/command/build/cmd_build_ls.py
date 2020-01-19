@@ -47,7 +47,7 @@ class CommandBuildLs(Command):
                     type, rule, name = rule.split()
                     child = create_build_node(name.split(':')[1], type)
                     children.append(child)
-                    return children
+                return children
             return None
         def recurse_label(path, node, only_filter, detailed, is_bazel_ws=False):
             def is_cmake_directory(node):
